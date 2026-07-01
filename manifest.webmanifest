@@ -1,0 +1,19 @@
+{
+  "name": "Algebra 2 Glow-Up Prep",
+  "short_name": "Algebra Glow-Up",
+  "description": "Daily adaptive Honors Algebra 2 practice that works offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f4ff",
+  "theme_color": "#7357d6",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
