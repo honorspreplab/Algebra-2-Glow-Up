@@ -32,11 +32,11 @@ function gcd(a,b){while(b)[a,b]=[b,a%b];return Math.abs(a)}
 function generatedTopicQuestion(topic,i){
   const n=i+1,id=`generated-${topic}-${Date.now()}-${i}`,base={id,topic,difficulty:i%5===0?"Honors":i%3===0?"Medium":"Warm-up",type:"text"};
   if(topic==="Functions"){
-    let a=2+i%7,b=(i%9)-4,x=3+i,answer=a*x+b;
+    let a=2+i%4,b=(i%7)-3,x=1+i%6,answer=a*x+b;
     return{...base,prompt:`If f(x) = ${a}x ${b<0?"−":"+"} ${Math.abs(b)}, find f(${x}).`,answer:[String(answer),`f(${x})=${answer}`],lesson:"Function notation means substitute the given input for x, then simplify using order of operations.",explanation:`Substitute ${x}: ${a}(${x}) ${b<0?"−":"+"} ${Math.abs(b)} = ${answer}.`,mistake:"Substitution error"};
   }
   if(topic==="Quadratics"){
-    let r1=2+i,r2=-(1+i%5),sum=r1+r2,product=r1*r2,mid=-sum;
+    let r1=1+i%5,r2=-(1+(i*2)%5),sum=r1+r2,product=r1*r2,mid=-sum;
     return{...base,prompt:`Solve x² ${mid<0?"−":"+"} ${Math.abs(mid)}x ${product<0?"−":"+"} ${Math.abs(product)} = 0. Give both solutions.`,answer:[`${r1},${r2}`,`${r2},${r1}`,`x=${r1},x=${r2}`,`x=${r2},x=${r1}`],lesson:"Factor the quadratic into (x−r₁)(x−r₂), then set each factor equal to zero.",explanation:`It factors as (x−${r1})(x${r2<0?"+":"−"}${Math.abs(r2)}), so x=${r1} or x=${r2}.`,mistake:"Factoring error"};
   }
   if(topic==="Complex Numbers"){
@@ -44,34 +44,34 @@ function generatedTopicQuestion(topic,i){
     return{...base,type:"mc",prompt:`Simplify i${String(exponent).split("").map(d=>"⁰¹²³⁴⁵⁶⁷⁸⁹"[d]).join("")}.`,choices:["1","−1","i","−i"],answer,lesson:"Powers of i repeat every four: 1, i, −1, −i. Use the exponent's remainder after division by 4.",explanation:`${exponent} has remainder ${exponent%4} when divided by 4, so the value is ${answer}.`,mistake:"Power cycle error"};
   }
   if(topic==="Polynomials"){
-    let a=2+i,b=(i%7)-3,c=1+i%6,answer=a*a+b*a+c;
+    let a=1+i%5,b=(i%7)-3,c=1+i%5,answer=a*a+b*a+c;
     return{...base,prompt:`Find the remainder when p(x)=x² ${b<0?"−":"+"} ${Math.abs(b)}x + ${c} is divided by x−${a}.`,answer:[String(answer)],lesson:"The Remainder Theorem says the remainder after dividing p(x) by x−a is p(a).",explanation:`p(${a})=${a}² ${b<0?"−":"+"} ${Math.abs(b)}(${a})+${c}=${answer}.`,mistake:"Remainder Theorem error"};
   }
   if(topic==="Rational Functions"){
-    let a=2+i;
+    let a=2+i%7;
     return{...base,type:"mc",prompt:`Simplify (x²−${a*a})/(x−${a}), where x≠${a}.`,choices:[`x−${a}`,`x+${a}`,`x²+${a}`,"1"],answer:`x+${a}`,lesson:"Factor a difference of squares: x²−a²=(x−a)(x+a), then cancel the common factor while keeping the restriction.",explanation:`x²−${a*a}=(x−${a})(x+${a}), so the simplified expression is x+${a}.`,mistake:"Factoring or restriction error"};
   }
   if(topic==="Radicals"){
-    let squareFree=[2,3,5,6,7,10,11,13,14,15,17,19][i%12],coefficient=2+i,radicand=coefficient*coefficient*squareFree;
+    let squareFree=[2,3,5,6,7,10][i%6],coefficient=2+i%5,radicand=coefficient*coefficient*squareFree;
     return{...base,prompt:`Simplify √${radicand}.`,answer:[`${coefficient}√${squareFree}`,`${coefficient}sqrt(${squareFree})`,`${coefficient}sqrt${squareFree}`],lesson:"Find the largest perfect-square factor, take its square root outside, and leave the square-free factor inside.",explanation:`${radicand}=${coefficient*coefficient}·${squareFree}, so √${radicand}=${coefficient}√${squareFree}.`,mistake:"Radical simplification"};
   }
   if(topic==="Exponential Functions"){
-    let exponent=2+i,baseNum=2+i%3,value=baseNum**exponent;
+    let exponent=2+i%4,baseNum=2+i%2,value=baseNum**exponent;
     return{...base,prompt:`Solve ${baseNum}ˣ = ${value}.`,answer:[String(exponent),`x=${exponent}`],lesson:"This is exponential because x is in the exponent. Write both sides with the same base, then set the exponents equal.",explanation:`${value}=${baseNum}^${exponent}, so x=${exponent}.`,mistake:"Exponent rule error"};
   }
   if(topic==="Logarithms"){
-    let exponent=2+i,baseNum=2+i%4,value=baseNum**exponent;
+    let exponent=2+i%4,baseNum=2+i%2,value=baseNum**exponent;
     return{...base,prompt:`Evaluate log base ${baseNum} of ${value}.`,answer:[String(exponent),`log_${baseNum}(${value})=${exponent}`],lesson:`A logarithm asks “what exponent?” Rewrite log base ${baseNum} of ${value}=x as ${baseNum}ˣ=${value}.`,explanation:`${baseNum}^${exponent}=${value}, so log base ${baseNum} of ${value}=${exponent}.`,mistake:"Logarithm meaning error"};
   }
   if(topic==="Sequences"){
-    let first=3+i,difference=2+i%6,term=6+i,answer=first+(term-1)*difference;
+    let first=1+i%6,difference=2+i%4,term=4+i%5,answer=first+(term-1)*difference;
     return{...base,prompt:`Find term ${term} of the arithmetic sequence with a₁=${first} and common difference d=${difference}.`,answer:[String(answer),`a${term}=${answer}`],lesson:"Use aₙ=a₁+(n−1)d for an arithmetic sequence.",explanation:`a${term}=${first}+(${term}−1)(${difference})=${answer}.`,mistake:"Sequence formula error"};
   }
   if(topic==="Systems"){
-    let x=2+i,y=5+i,m1=2,m2=-1-(i%3),b1=y-m1*x,b2=y-m2*x;
+    let x=1+i%5,y=2+(i*2)%7,m1=1+i%2,m2=-(1+(i%2)),b1=y-m1*x,b2=y-m2*x;
     return{...base,prompt:`Solve the system y=${m1}x ${b1<0?"−":"+"} ${Math.abs(b1)} and y=${m2}x + ${b2}. Give the ordered pair.`,answer:[`(${x},${y})`,`${x},${y}`],lesson:"Set the two expressions for y equal, solve for x, and substitute to find y.",explanation:`The two equations are equal at x=${x}; substituting gives y=${y}. The solution is (${x}, ${y}).`,mistake:"System solving error"};
   }
-  let degrees=30*(i+1),common=gcd(degrees,180),num=degrees/common,den=180/common,answer=den===1?`${num===1?"":num}π`:`${num===1?"":num}π/${den}`;
+  let degrees=[30,45,60,90,120,135,150][i%7],common=gcd(degrees,180),num=degrees/common,den=180/common,answer=den===1?`${num===1?"":num}π`:`${num===1?"":num}π/${den}`;
   return{...base,prompt:`Convert ${degrees}° to radians.`,answer:[answer,`${num===1?"":num}pi/${den}`,den===1?`${num}pi`:answer],lesson:"Multiply degrees by π/180, then reduce the fraction.",explanation:`${degrees}·π/180 simplifies to ${answer}.`,mistake:"Degree/radian conversion"};
 }
 function chooseTopicQuestions(topic,count){return Array.from({length:count},(_,i)=>generatedTopicQuestion(topic,i))}
