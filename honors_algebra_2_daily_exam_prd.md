@@ -326,6 +326,7 @@ The setup screen must include a **Practice Type** dropdown with two choices:
 - Every question in the session should practice the selected topic.
 - Questions must be generated with varied values and prompts so the same exact question does not repeat within the session, even when the requested amount is larger than the starter question bank.
 - Generated practice questions should use small, beginner-friendly numbers that cycle instead of growing forever. Long custom tests should not create huge radicals, exponents, system constants, sequence terms, or angle measures just because the student requested more questions.
+- If the question generator is updated, old saved in-progress test drafts created by earlier generator versions should be cleared so stale oversized questions do not keep reappearing after an update.
 
 The topic, question amount, and test time controls must remain hidden while Adaptive Mix is selected. Both number fields must reject empty, zero, negative, decimal, and nonnumeric values and show a beginner-friendly message when correction is needed. The setup summary should update immediately while the student types so they can see the chosen focus, number of questions, and time before starting.
 
