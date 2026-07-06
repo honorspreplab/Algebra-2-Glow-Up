@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <header class="topbar">
@@ -106,8 +106,8 @@
           <p id="questionType" class="kicker">MULTIPLE CHOICE</p>
           <h1 id="questionPrompt"></h1>
           <div id="answerArea"></div>
-          <div id="lesson" class="lesson hidden"></div>
-          <div class="help-row"><button class="soft" id="teachButton">✦ Teach me this topic</button><span id="saveStatus">Answer saves automatically</span></div>
+          <div id="lesson" class="lesson coach hidden" aria-live="polite"></div>
+        <div class="help-row"><button class="soft" id="teachButton">✦ Open Study Coach</button><span id="saveStatus">Answer saves automatically</span></div>
         </article>
         <div class="exam-actions"><button class="soft" id="prevButton">← Previous</button><button class="primary" id="nextButton">Next question →</button></div>
       </div>
@@ -153,6 +153,6 @@
     </div>
   </dialog>
   <div id="toast" role="status"></div>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
