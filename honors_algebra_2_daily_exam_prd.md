@@ -333,6 +333,8 @@ The topic, question amount, and test time controls must remain hidden while Adap
 
 The selected mode and custom topic settings should be stored locally. Results must record whether the session was adaptive or topic-specific, along with the selected topic, question count, and time limit.
 
+The app should show a small visible version label in the header so the student can confirm whether the newest GitHub Pages update has loaded. Service worker registration should be versioned when app files change, and the page should refresh once when a new service worker takes control.
+
 Each exam should be designed for exactly **30 minutes**.
 
 ### Recommended Question Count

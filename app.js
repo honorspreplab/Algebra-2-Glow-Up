@@ -16,7 +16,7 @@ const QUESTIONS = [
  {id:"t1",topic:"Trigonometry",difficulty:"Honors",type:"mc",prompt:"Convert 150° to radians.",choices:["π/6","5π/6","3π/2","5π/3"],answer:"5π/6",lesson:"Multiply degrees by π/180 and simplify. Example: 60°·π/180=π/3.",explanation:"150·π/180=5π/6.",mistake:"Degree/radian conversion"}
 ];
 const KEY="algebraGlowUpDataV2";
-const GENERATOR_VERSION=10;
+const GENERATOR_VERSION=11;
 let data=load(), exam=null, timerId=null;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 function load(){try{let saved=JSON.parse(localStorage.getItem(KEY))||{profile:{},history:[],draft:null};if(saved.draft&&saved.draft.generatorVersion!==GENERATOR_VERSION)saved.draft=null;return saved}catch{return{profile:{},history:[],draft:null}}}
@@ -32,6 +32,58 @@ function chooseQuestions(){let weak=getFocus(),weakPool=QUESTIONS.filter(q=>q.to
 function gcd(a,b){while(b)[a,b]=[b,a%b];return Math.abs(a)}
 function generatedTopicQuestion(topic,i){
   const n=i+1,id=`generated-${topic}-${Date.now()}-${i}`,base={id,topic,difficulty:i%5===0?"Honors":i%3===0?"Medium":"Warm-up",type:"text"};
+  const sign=v=>v<0?`- ${Math.abs(v)}`:`+ ${v}`;
+  if(topic==="Functions"){
+    let a=2+i%5,b=(i*3)%9-4,x=1+(i*2)%7,answer=a*x+b;
+    if(i%3===1){answer=a*(x+b);return{...base,prompt:`If f(x) = ${a}(x ${sign(b)}), find f(${x}).`,answer:[String(answer),`f(${x})=${answer}`],lesson:"Function notation means substitute the input for x, then simplify what is inside parentheses first.",explanation:`f(${x})=${a}(${x} ${sign(b)})=${answer}.`,mistake:"Substitution error"}}
+    return{...base,prompt:`If f(x) = ${a}x ${sign(b)}, find f(${x}).`,answer:[String(answer),`f(${x})=${answer}`],lesson:"Function notation means substitute the given input for x, then simplify using order of operations.",explanation:`Substitute ${x}: ${a}(${x}) ${sign(b)} = ${answer}.`,mistake:"Substitution error"};
+  }
+  if(topic==="Quadratics"){
+    let r1=1+i%6,r2=-(1+(i*2)%6),sum=r1+r2,product=r1*r2,mid=-sum;
+    return{...base,prompt:`Solve x^2 ${sign(mid)}x ${sign(product)} = 0. Give both solutions.`,answer:[`${r1},${r2}`,`${r2},${r1}`,`x=${r1},x=${r2}`,`x=${r2},x=${r1}`],lesson:"Factor the quadratic, then set each factor equal to zero.",explanation:`It factors as (x-${r1})(x${r2<0?"+":"-"}${Math.abs(r2)}), so x=${r1} or x=${r2}.`,mistake:"Factoring error"};
+  }
+  if(topic==="Complex Numbers"){
+    let exponent=5+(i*5)%20,cycle=["1","i","-1","-i"],answer=cycle[exponent%4];
+    return{...base,type:"mc",prompt:`Simplify i^${exponent}.`,choices:["1","-1","i","-i"],answer,lesson:"Powers of i repeat every four: 1, i, -1, -i. Use the exponent's remainder after division by 4.",explanation:`${exponent} has remainder ${exponent%4} when divided by 4, so the value is ${answer}.`,mistake:"Power cycle error"};
+  }
+  if(topic==="Polynomials"){
+    let a=1+(i*2)%6,b=(i*3)%9-4,c=1+i%7,answer=a*a+b*a+c;
+    return{...base,prompt:`Find the remainder when p(x)=x^2 ${sign(b)}x + ${c} is divided by x-${a}.`,answer:[String(answer)],lesson:"The Remainder Theorem says the remainder after dividing p(x) by x-a is p(a).",explanation:`p(${a})=${a}^2 ${sign(b)}(${a})+${c}=${answer}.`,mistake:"Remainder Theorem error"};
+  }
+  if(topic==="Rational Functions"){
+    let a=2+(i*2)%8;
+    return{...base,type:"mc",prompt:`Simplify (x^2-${a*a})/(x-${a}), where x cannot equal ${a}.`,choices:[`x-${a}`,`x+${a}`,`x^2+${a}`,"1"],answer:`x+${a}`,lesson:"Factor a difference of squares: x^2-a^2=(x-a)(x+a), then cancel the common factor while keeping the restriction.",explanation:`x^2-${a*a}=(x-${a})(x+${a}), so the simplified expression is x+${a}.`,mistake:"Factoring or restriction error"};
+  }
+  if(topic==="Radicals"){
+    let squareFree=[2,3,5,6,7,10,11,13][(i*3)%8],coefficient=2+(i*2)%6,radicand=coefficient*coefficient*squareFree;
+    return{...base,prompt:`Simplify sqrt(${radicand}).`,answer:[`${coefficient}sqrt(${squareFree})`,`${coefficient}sqrt${squareFree}`],lesson:"Find the largest perfect-square factor, take its square root outside, and leave the square-free factor inside.",explanation:`${radicand}=${coefficient*coefficient}*${squareFree}, so sqrt(${radicand})=${coefficient}sqrt(${squareFree}).`,mistake:"Radical simplification"};
+  }
+  if(topic==="Exponential Functions"){
+    let bases=[2,3,4,5],baseNum=bases[(i+Math.floor(i/4))%bases.length],exponent=2+(i*2)%4,value=baseNum**exponent,coef=2+i%4,shift=i%2+1;
+    if(i%4===1)return{...base,prompt:`Solve ${coef}*${baseNum}^x = ${coef*value}.`,answer:[String(exponent),`x=${exponent}`],lesson:"First divide away the coefficient, then match powers with the same base.",explanation:`Divide by ${coef}: ${baseNum}^x=${value}. Since ${baseNum}^${exponent}=${value}, x=${exponent}.`,mistake:"Exponent rule error"};
+    if(i%4===2)return{...base,prompt:`Solve ${baseNum}^(x+${shift}) = ${baseNum**(exponent+shift)}.`,answer:[String(exponent),`x=${exponent}`],lesson:"When the bases match, set the exponents equal and solve the small equation.",explanation:`x+${shift}=${exponent+shift}, so x=${exponent}.`,mistake:"Exponent equation error"};
+    if(i%4===3)return{...base,prompt:`Solve ${baseNum}^(x-${shift}) = ${baseNum**exponent}.`,answer:[String(exponent+shift),`x=${exponent+shift}`],lesson:"When the bases match, set the exponents equal and solve the small equation.",explanation:`x-${shift}=${exponent}, so x=${exponent+shift}.`,mistake:"Exponent equation error"};
+    return{...base,prompt:`Solve ${baseNum}^x = ${value}.`,answer:[String(exponent),`x=${exponent}`],lesson:"This is exponential because x is in the exponent. Write both sides with the same base, then set the exponents equal.",explanation:`${value}=${baseNum}^${exponent}, so x=${exponent}.`,mistake:"Exponent rule error"};
+  }
+  if(topic==="Logarithms"){
+    let bases=[2,3,4,5],baseNum=bases[(i+Math.floor(i/4))%bases.length],exponent=2+(i*2)%4,value=baseNum**exponent;
+    if(i%4===1)return{...base,prompt:`Solve log base ${baseNum} of x = ${exponent}.`,answer:[String(value),`x=${value}`],lesson:"Rewrite the log equation in exponential form: base^exponent=value.",explanation:`log base ${baseNum} of x=${exponent} means ${baseNum}^${exponent}=x, so x=${value}.`,mistake:"Logarithm meaning error"};
+    if(i%4===2)return{...base,type:"mc",prompt:`Which equation matches log base ${baseNum} of ${value} = ${exponent}?`,choices:[`${baseNum}^${exponent}=${value}`,`${exponent}^${baseNum}=${value}`,`${value}^${baseNum}=${exponent}`,`${baseNum}^${value}=${exponent}`],answer:`${baseNum}^${exponent}=${value}`,lesson:"log base a of b = c means a^c=b.",explanation:`The base stays ${baseNum}, the exponent is ${exponent}, and the result is ${value}.`,mistake:"Log form confusion"};
+    if(i%4===3)return{...base,prompt:`Evaluate log base ${baseNum} of ${value*baseNum} minus 1.`,answer:[String(exponent),`${exponent}`],lesson:"A logarithm asks what exponent makes the base reach the number.",explanation:`${value*baseNum}=${baseNum}^${exponent+1}, so the log is ${exponent+1}. Then ${exponent+1}-1=${exponent}.`,mistake:"Logarithm meaning error"};
+    return{...base,prompt:`Evaluate log base ${baseNum} of ${value}.`,answer:[String(exponent),`log_${baseNum}(${value})=${exponent}`],lesson:"A logarithm asks what exponent is needed. Rewrite log base a of b=x as a^x=b.",explanation:`${baseNum}^${exponent}=${value}, so log base ${baseNum} of ${value}=${exponent}.`,mistake:"Logarithm meaning error"};
+  }
+  if(topic==="Sequences"){
+    let first=1+(i*2)%8,difference=2+i%5,term=4+(i*3)%7,answer=first+(term-1)*difference;
+    return{...base,prompt:`Find term ${term} of the arithmetic sequence with a1=${first} and common difference d=${difference}.`,answer:[String(answer),`a${term}=${answer}`],lesson:"Use a_n=a1+(n-1)d for an arithmetic sequence.",explanation:`a${term}=${first}+(${term}-1)(${difference})=${answer}.`,mistake:"Sequence formula error"};
+  }
+  if(topic==="Systems"){
+    let x=1+(i*2)%6,y=2+(i*3)%8,m1=1+i%3,m2=-(1+((i+1)%3)),b1=y-m1*x,b2=y-m2*x;
+    return{...base,prompt:`Solve the system y=${m1}x ${sign(b1)} and y=${m2}x ${sign(b2)}. Give the ordered pair.`,answer:[`(${x},${y})`,`${x},${y}`],lesson:"Set the two expressions for y equal, solve for x, and substitute to find y.",explanation:`The two equations are equal at x=${x}; substituting gives y=${y}. The solution is (${x}, ${y}).`,mistake:"System solving error"};
+  }
+  if(topic==="Trigonometry"){
+    let degrees=[30,45,60,90,120,135,150,210,225,240,300,315][(i*5)%12],common=gcd(degrees,180),num=degrees/common,den=180/common,answer=den===1?`${num===1?"":num}pi`:`${num===1?"":num}pi/${den}`;
+    return{...base,prompt:`Convert ${degrees} degrees to radians.`,answer:[answer],lesson:"Multiply degrees by pi/180, then reduce the fraction.",explanation:`${degrees}*pi/180 simplifies to ${answer}.`,mistake:"Degree/radian conversion"};
+  }
   if(topic==="Functions"){
     let a=2+i%4,b=(i%7)-3,x=1+i%6,answer=a*x+b;
     return{...base,prompt:`If f(x) = ${a}x ${b<0?"−":"+"} ${Math.abs(b)}, find f(${x}).`,answer:[String(answer),`f(${x})=${answer}`],lesson:"Function notation means substitute the given input for x, then simplify using order of operations.",explanation:`Substitute ${x}: ${a}(${x}) ${b<0?"−":"+"} ${Math.abs(b)} = ${answer}.`,mistake:"Substitution error"};
@@ -138,4 +190,4 @@ function renderDashboard(){let h=data.history,name=data.profile.name||"Student";
 function openFormula(){if(exam){exam.formulaOpens++;data.draft=exam;save()}$("#formulaModal").showModal()}
 function toast(s){$("#toast").textContent=s;$("#toast").classList.add("show");setTimeout(()=>$("#toast").classList.remove("show"),1800)}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-$$("[data-view]").forEach(b=>b.onclick=()=>showView(b.dataset.view));$("#setupForm").onsubmit=startExam;$("#themeSelect").onchange=e=>{document.documentElement.dataset.theme=e.target.value;data.profile.theme=e.target.value;save()};["examMode","topicSelect"].forEach(id=>$(`#${id}`).onchange=updateSetupMode);["topicQuestionCount","topicTestMinutes"].forEach(id=>$(`#${id}`).oninput=updateSetupMode);$("#nextButton").onclick=next;$("#prevButton").onclick=()=>{if(exam.index){exam.index--;renderQuestion()}};$("#teachButton").onclick=teach;$("#formulaTop").onclick=openFormula;$("#formulaExam").onclick=openFormula;$("#closeFormula").onclick=()=>$("#formulaModal").close();$("#exitExam").onclick=()=>{clearInterval(timerId);data.draft=exam;save();showView("home");toast("Exam saved. You can start fresh anytime.")};$("#toggleReview").onclick=()=>{let x=$("#reviewList");x.classList.toggle("hidden");$("#toggleReview").textContent=x.classList.contains("hidden")?"Show review":"Hide review"};$("#clearData").onclick=()=>{if(confirm("Clear your profile and all exam results from this browser?")){localStorage.removeItem(KEY);data=load();applyProfile();renderDashboard()}};applyProfile();renderDashboard();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+$$("[data-view]").forEach(b=>b.onclick=()=>showView(b.dataset.view));$("#setupForm").onsubmit=startExam;$("#themeSelect").onchange=e=>{document.documentElement.dataset.theme=e.target.value;data.profile.theme=e.target.value;save()};["examMode","topicSelect"].forEach(id=>$(`#${id}`).onchange=updateSetupMode);["topicQuestionCount","topicTestMinutes"].forEach(id=>$(`#${id}`).oninput=updateSetupMode);$("#nextButton").onclick=next;$("#prevButton").onclick=()=>{if(exam.index){exam.index--;renderQuestion()}};$("#teachButton").onclick=teach;$("#formulaTop").onclick=openFormula;$("#formulaExam").onclick=openFormula;$("#closeFormula").onclick=()=>$("#formulaModal").close();$("#exitExam").onclick=()=>{clearInterval(timerId);data.draft=exam;save();showView("home");toast("Exam saved. You can start fresh anytime.")};$("#toggleReview").onclick=()=>{let x=$("#reviewList");x.classList.toggle("hidden");$("#toggleReview").textContent=x.classList.contains("hidden")?"Show review":"Hide review"};$("#clearData").onclick=()=>{if(confirm("Clear your profile and all exam results from this browser?")){localStorage.removeItem(KEY);data=load();applyProfile();renderDashboard()}};applyProfile();renderDashboard();if("serviceWorker"in navigator&&location.protocol.startsWith("http")){let refreshed=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(refreshed)return;refreshed=true;location.reload()});navigator.serviceWorker.register("./sw.js?v=12").then(reg=>reg.update()).catch(()=>{})}
