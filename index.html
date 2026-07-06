@@ -15,11 +15,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=15">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v14</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v15</small></button>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
       <button class="nav-link" data-view="dashboard">Progress</button>
@@ -87,6 +87,7 @@
         <div class="today-box"><span id="focusLabel">Today’s adaptive focus</span><strong id="todayFocus">Diagnostic mix</strong><small id="dayLabel">Day 1 • 10 questions • 30 minutes</small></div>
         <button class="primary wide" type="submit">Start today’s exam <span>→</span></button>
         <button class="soft wide hidden" type="button" id="resumeExam">Resume saved test <span>→</span></button>
+        <button class="soft wide" type="button" id="makeWorksheet">Make printable worksheet <span>🖨</span></button>
         <p class="fine-print">Practice timer: 30 minutes. Your work saves automatically.</p>
       </form>
     </section>
@@ -137,6 +138,11 @@
       </div>
       <article class="panel"><div class="panel-title"><h2>Recent sessions</h2><button id="clearData" class="text-button danger">Clear data</button></div><div id="historyList"></div></article>
     </section>
+
+    <section id="worksheetView" class="view hidden worksheet-page">
+      <div class="page-heading no-print"><div><p class="kicker">PRINTABLE PRACTICE</p><h1>Worksheet builder</h1></div><div class="print-actions"><button class="soft" data-view="home">Back home</button><button class="primary" id="printWorksheet">Print worksheet 🖨</button></div></div>
+      <article id="worksheetPaper" class="worksheet-paper"></article>
+    </section>
   </main>
 
   <dialog id="formulaModal">
@@ -154,6 +160,6 @@
     </div>
   </dialog>
   <div id="toast" role="status"></div>
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>

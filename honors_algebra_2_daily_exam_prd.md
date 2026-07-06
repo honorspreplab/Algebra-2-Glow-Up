@@ -339,6 +339,8 @@ The app should show a small visible version label in the header so the student c
 
 If a student chooses **Save & exit** during a test, the Home setup card must show a clear **Resume saved test** button. The button should only appear when a saved draft exists, and it should restore the saved questions, answers, timer, and current question position.
 
+The Home setup card should also include a **Make printable worksheet** option. It should generate a clean worksheet for either Adaptive Mix or the selected single topic. For Adaptive Mix, the worksheet uses the fixed adaptive question count. For single-topic practice, it uses the selected topic and typed question amount. The worksheet should include blank answer space, multiple-choice options when needed, and an answer key on a separate printed page. The worksheet view should have a print button and print-friendly styling that hides the app navigation and gradient interface.
+
 Each exam should be designed for exactly **30 minutes**.
 
 ### Recommended Question Count
