@@ -235,6 +235,8 @@ Selecting one must never generate questions from the other.
 
 The app must not use a combined **Exponentials & Logs** topic label in the active question bank. Starter, adaptive, and custom-generated questions should label exponential-only questions as **Exponential Functions** and logarithm-only questions as **Logarithms**.
 
+Beginner-facing logarithm questions should show the formal log notation first, then immediately include a plain-language translation. Example: “What is log base 2 of 4? Translation: 2 to what power equals 4?” The notation should not appear by itself in early or warm-up questions.
+
 Example question types:
 - Solve \(3 \cdot 2^x = 48\)
 - Convert \(\log_2 32 = 5\) to exponential form
