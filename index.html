@@ -15,17 +15,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v18</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v20</small></button>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
       <button class="nav-link" data-view="dashboard">Progress</button>
+      <button class="nav-link hidden" id="adminNav" data-view="admin">Admin</button>
       <button class="nav-link" id="formulaTop">Formula sheet</button>
+      <button class="nav-link" id="signOutButton">Sign out</button>
     </nav>
   </header>
+
+  <section id="authGate" class="auth-gate">
+    <div class="auth-card">
+      <div class="card-heading"><span class="step-dot">🔐</span><div><h2>Sign in to continue</h2><p>Use Google or Microsoft so your account can be Basic or Premium.</p></div></div>
+      <button class="primary wide" id="googleSignIn" type="button">Continue with Google</button>
+      <button class="soft wide" id="microsoftSignIn" type="button">Continue with Microsoft</button>
+      <p id="authMessage" class="fine-print">First sign-in starts as Basic. Premium must be approved by an admin.</p>
+    </div>
+  </section>
 
   <main>
     <section id="homeView" class="view hero">
@@ -98,6 +109,11 @@
         <button class="primary wide" type="submit">Start today’s exam <span>→</span></button>
         <button class="soft wide hidden" type="button" id="resumeExam">Resume saved test <span>→</span></button>
         <button class="soft wide" type="button" id="makeWorksheet">Make printable worksheet <span>🖨</span></button>
+        <div id="accountBox" class="account-box hidden">
+          <strong id="accountStatus">Basic account</strong>
+          <span id="accountEmail"></span>
+          <button class="soft wide hidden" id="upgradePremium" type="button">Request Premium</button>
+        </div>
         <p class="fine-print">Practice timer: 30 minutes. Your work saves automatically.</p>
       </form>
     </section>
@@ -149,6 +165,13 @@
       <article class="panel"><div class="panel-title"><h2>Recent sessions</h2><button id="clearData" class="text-button danger">Clear data</button></div><div id="historyList"></div></article>
     </section>
 
+    <section id="adminView" class="view hidden dashboard-page">
+      <div class="page-heading"><div><p class="kicker">ADMIN</p><h1>Accounts & usage</h1></div><button class="primary" id="refreshAdmin">Refresh admin data</button></div>
+      <div id="adminStats" class="stat-grid"></div>
+      <article class="panel"><div class="panel-title"><h2>Premium requests</h2><span>Admin only</span></div><div id="premiumRequests"></div></article>
+      <article class="panel"><div class="panel-title"><h2>Signed-in users</h2><span>Usage summary</span></div><div id="adminUsers"></div></article>
+    </section>
+
     <section id="worksheetView" class="view hidden worksheet-page">
       <div class="page-heading no-print"><div><p class="kicker">PRINTABLE PRACTICE</p><h1>Worksheet builder</h1></div><div class="print-actions"><button class="soft" data-view="home">Back home</button><button class="primary" id="printWorksheet">Print worksheet 🖨</button></div></div>
       <article id="worksheetPaper" class="worksheet-paper"></article>
@@ -170,6 +193,11 @@
     </div>
   </dialog>
   <div id="toast" role="status"></div>
-  <script src="app.js?v=18"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
+  <script src="firebase-config.js?v=20"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
