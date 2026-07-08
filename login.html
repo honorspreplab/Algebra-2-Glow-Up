@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#7357d6">
   <title>Sign in · Algebra 2 Glow-Up</title>
-  <link rel="stylesheet" href="styles.css?v=23">
+  <link rel="stylesheet" href="styles.css?v=24">
 </head>
 <body>
   <main class="auth-gate">
@@ -25,10 +25,10 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-  <script src="firebase-config.js?v=23"></script>
+  <script src="firebase-config.js?v=24"></script>
   <script>
     const message = document.querySelector("#loginMessage");
-    const homeUrl = "./index.html?v=23";
+    const homeUrl = "./index.html?v=24&signedIn=1";
 
     function say(text) {
       message.textContent = text;
@@ -44,7 +44,10 @@
       firebase.initializeApp(window.FIREBASE_CONFIG);
       firebase.auth().getRedirectResult().catch(error => say(error.message || "Google sign-in could not finish."));
       firebase.auth().onAuthStateChanged(user => {
-        if (user) location.href = homeUrl;
+        if (user) {
+          say("Signed in! Taking you back to the app...");
+          location.replace(homeUrl);
+        }
       });
     }
 
