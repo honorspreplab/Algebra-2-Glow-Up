@@ -2,103 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#7357d6">
-  <title>Sign in · Algebra 2 Glow-Up</title>
-  <link rel="stylesheet" href="styles.css?v=28">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Returning to Algebra 2 Glow-Up</title>
+  <script>
+    location.replace("./index.html?v=29");
+  </script>
 </head>
 <body>
-  <main class="auth-gate">
-    <div class="auth-card">
-      <div class="card-heading">
-        <span class="step-dot">🔐</span>
-        <div>
-          <h2>Sign in to Algebra 2 Glow-Up</h2>
-          <p>This page signs you in with Google, then sends you back to the app.</p>
-        </div>
-      </div>
-      <button class="primary wide" id="loginGoogle" type="button">Continue with Google</button>
-      <button class="soft wide" id="backHome" type="button">Back to app</button>
-      <p class="fine-print" id="loginMessage">No pop-up here — this uses a full page Google sign-in.</p>
-    </div>
-  </main>
-
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-  <script src="firebase-config.js?v=28"></script>
-  <script>
-    const message = document.querySelector("#loginMessage");
-    const homeUrl = "./index.html?v=28&signedIn=1";
-
-    function say(text) {
-      message.textContent = text;
-    }
-
-    function ready() {
-      return window.firebase && window.FIREBASE_CONFIG && !String(window.FIREBASE_CONFIG.apiKey || "").includes("PASTE_");
-    }
-
-    async function clearOldAppCache() {
-      try {
-        if ("serviceWorker" in navigator) {
-          const registrations = await navigator.serviceWorker.getRegistrations();
-          await Promise.all(registrations.map(registration => registration.unregister()));
-        }
-        if ("caches" in window) {
-          const names = await caches.keys();
-          await Promise.all(names.map(name => caches.delete(name)));
-        }
-      } catch (error) {
-        // Cache cleanup is helpful, but sign-in can still continue if it fails.
-      }
-    }
-
-    function goHome() {
-      say("Signed in! Taking you back to the app...");
-      location.replace(homeUrl);
-    }
-
-    if (!ready()) {
-      say("Firebase is not configured yet.");
-    } else {
-      firebase.initializeApp(window.FIREBASE_CONFIG);
-      firebase.auth().getRedirectResult()
-        .then(result => {
-          if (result && result.user) goHome();
-          else if (firebase.auth().currentUser) goHome();
-        })
-        .catch(error => say(error.message || "Google sign-in could not finish."));
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) goHome();
-      });
-      setTimeout(() => {
-        if (firebase.auth().currentUser) goHome();
-      }, 1500);
-    }
-
-    document.querySelector("#loginGoogle").onclick = async () => {
-      try {
-        say("Opening Google sign-in...");
-        await clearOldAppCache();
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: "select_account" });
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        setTimeout(() => {
-          if (!document.hidden) {
-            say("Google still has not opened. Try this page in Chrome/Edge, and make sure Firebase Authentication has radsisthebest.github.io as an authorized domain.");
-          }
-        }, 6000);
-        firebase.auth().signInWithRedirect(provider).catch(error => {
-          say(error.message || "Google sign-in failed before it could open.");
-        });
-      } catch (error) {
-        say(error.message || "Sign-in failed.");
-      }
-    };
-
-    document.querySelector("#backHome").onclick = () => {
-      location.href = homeUrl;
-    };
-  </script>
+  <p>Taking you back to Algebra 2 Glow-Up...</p>
+  <p><a href="./index.html?v=29">Back to app</a></p>
 </body>
 </html>
