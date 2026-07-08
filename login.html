@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#7357d6">
   <title>Sign in · Algebra 2 Glow-Up</title>
-  <link rel="stylesheet" href="styles.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
   <main class="auth-gate">
@@ -25,10 +25,10 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-  <script src="firebase-config.js?v=24"></script>
+  <script src="firebase-config.js?v=25"></script>
   <script>
     const message = document.querySelector("#loginMessage");
-    const homeUrl = "./index.html?v=24&signedIn=1";
+    const homeUrl = "./index.html?v=25&signedIn=1";
 
     function say(text) {
       message.textContent = text;
@@ -56,7 +56,14 @@
         say("Opening Google sign-in...");
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: "select_account" });
-        firebase.auth().signInWithRedirect(provider);
+        setTimeout(() => {
+          if (!document.hidden) {
+            say("Google still has not opened. Try this page in Chrome/Edge, and make sure Firebase Authentication has radsisthebest.github.io as an authorized domain.");
+          }
+        }, 6000);
+        firebase.auth().signInWithRedirect(provider).catch(error => {
+          say(error.message || "Google sign-in failed before it could open.");
+        });
       } catch (error) {
         say(error.message || "Sign-in failed.");
       }
