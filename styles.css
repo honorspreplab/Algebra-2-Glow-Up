@@ -99,3 +99,28 @@ body.signed-in #authGate{display:none!important}
   .worksheet-head .kicker{color:#111}.worksheet-list{gap:18px}
   .answer-key{break-before:page}
 }
+
+.today-box{
+  grid-template-columns:1fr;
+  gap:6px;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));
+}
+.today-box span{
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  font-weight:900;
+}
+.today-box strong{
+  font:800 20px/1.25 Manrope;
+  letter-spacing:-.02em;
+}
+.today-box small{
+  grid-column:auto;
+  font-size:13px;
+  color:var(--muted);
+  font-weight:700;
+}
