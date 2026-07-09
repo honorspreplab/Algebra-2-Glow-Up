@@ -16,7 +16,7 @@ const QUESTIONS = [
  {id:"t1",topic:"Trigonometry",difficulty:"Honors",type:"mc",prompt:"Convert 150° to radians.",choices:["π/6","5π/6","3π/2","5π/3"],answer:"5π/6",lesson:"Multiply degrees by π/180 and simplify. Example: 60°·π/180=π/3.",explanation:"150·π/180=5π/6.",mistake:"Degree/radian conversion"}
 ];
 const KEY="algebraGlowUpDataV2";
-const GENERATOR_VERSION=14;
+const GENERATOR_VERSION=15;
 let data=load(), exam=null, timerId=null;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 function defaultData(){return{profile:{},history:[],draft:null,generatorLog:{usedPromptKeys:[],sessionCounter:0}}}
