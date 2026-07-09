@@ -1,4 +1,4 @@
-const CACHE = "algebra-glow-up-v37";
+const CACHE = "algebra-glow-up-v38";
 const APP_FILES = ["./", "./index.html", "./login.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => {

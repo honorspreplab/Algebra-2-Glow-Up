@@ -317,7 +317,7 @@ Optional, depending on course pacing.
 
 ### Exam Mode Selection
 
-The setup screen must include a **Practice Type** dropdown with two choices:
+The setup screen must include a **Practice Type** dropdown with three choices:
 
 1. **Adaptive Mix (recommended)**
    - Uses the app's adaptive topic weighting and spaced-review logic.
@@ -326,8 +326,14 @@ The setup screen must include a **Practice Type** dropdown with two choices:
    - The student cannot change question amount or time in this mode.
 2. **Choose One Topic**
    - Shows an Algebra 2 topic dropdown.
+   - Shows a difficulty dropdown with Warm-up, Easy, Medium, and Honors.
    - Shows a Question Amount number-entry field.
    - Shows a Test Time number-entry field measured in minutes.
+3. **End-of-Unit Test**
+   - Shows an Algebra 2 topic dropdown.
+   - Shows Question Amount and Test Time fields.
+   - Does not use one fixed difficulty level.
+   - Mixes Warm-up, Easy, Medium, and Honors questions from the selected topic to feel like a real end-of-unit review.
 - The student may type any positive whole number into either field instead of choosing from preset options.
 - Every question in the session should practice the selected topic.
 - Questions must be generated with varied values and prompts so the same exact question does not repeat within the session, even when the requested amount is larger than the starter question bank.
@@ -335,15 +341,15 @@ The setup screen must include a **Practice Type** dropdown with two choices:
 - Generated practice questions should vary both the numbers and the prompt pattern. For example, exponential practice should mix direct equations, coefficient equations, and shifted-exponent equations instead of repeating the same template.
 - If the question generator is updated, old saved in-progress test drafts created by earlier generator versions should be cleared so stale oversized questions do not keep reappearing after an update.
 
-The topic, question amount, and test time controls must remain hidden while Adaptive Mix is selected. Both number fields must reject empty, zero, negative, decimal, and nonnumeric values and show a beginner-friendly message when correction is needed. The setup summary should update immediately while the student types so they can see the chosen focus, number of questions, and time before starting.
+The topic, question amount, and test time controls must remain hidden while Adaptive Mix is selected. The difficulty dropdown should show for Choose One Topic and hide for End-of-Unit Test because end-of-unit tests are mixed difficulty. Both number fields must reject empty, zero, negative, decimal, and nonnumeric values and show a beginner-friendly message when correction is needed. The setup summary should update immediately while the student types so they can see the chosen focus, number of questions, and time before starting.
 
-The selected mode and custom topic settings should be stored locally. Results must record whether the session was adaptive or topic-specific, along with the selected topic, question count, and time limit.
+The selected mode and custom topic settings should be stored locally. Results must record whether the session was adaptive, topic-specific, or end-of-unit, along with the selected topic, question count, and time limit.
 
 The app should show a small visible version label in the header so the student can confirm whether the newest GitHub Pages update has loaded. Service worker registration should be versioned when app files change, and the page should refresh once when a new service worker takes control.
 
 If a student chooses **Save & exit** during a test, the Home setup card must show a clear **Resume saved test** button. The button should only appear when a saved draft exists, and it should restore the saved questions, answers, timer, and current question position.
 
-The Home setup card should also include a **Make printable worksheet** option. It should generate a clean worksheet for either Adaptive Mix or the selected single topic. For Adaptive Mix, the worksheet uses the fixed adaptive question count. For single-topic practice, it uses the selected topic and typed question amount. The worksheet should include blank answer space, multiple-choice options when needed, and an answer key on a separate printed page. The worksheet view should have a print button and print-friendly styling that hides the app navigation and gradient interface.
+The Home setup card should also include a **Make printable worksheet** option. It should generate a clean worksheet for Adaptive Mix, the selected single topic, or an End-of-Unit Test. For Adaptive Mix, the worksheet uses the fixed adaptive question count. For single-topic practice, it uses the selected topic, difficulty, and typed question amount. For End-of-Unit worksheets, it uses the selected topic and a mixed difficulty distribution. The worksheet should include blank answer space, multiple-choice options when needed, and an answer key on a separate printed page. The worksheet view should have a print button and print-friendly styling that hides the app navigation and gradient interface.
 
 When **Choose one topic** is selected, the setup controls should include a difficulty dropdown with **Warm-up**, **Easy**, **Medium**, and **Honors**. The selected difficulty applies to single-topic tests and single-topic printable worksheets. Adaptive Mix keeps its own mixed difficulty behavior.
 
