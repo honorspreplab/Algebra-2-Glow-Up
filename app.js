@@ -16,12 +16,16 @@ const QUESTIONS = [
  {id:"t1",topic:"Trigonometry",difficulty:"Honors",type:"mc",prompt:"Convert 150° to radians.",choices:["π/6","5π/6","3π/2","5π/3"],answer:"5π/6",lesson:"Multiply degrees by π/180 and simplify. Example: 60°·π/180=π/3.",explanation:"150·π/180=5π/6.",mistake:"Degree/radian conversion"}
 ];
 const KEY="algebraGlowUpDataV2";
-const GENERATOR_VERSION=13;
+const GENERATOR_VERSION=14;
 let data=load(), exam=null, timerId=null;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-function load(){try{let saved=JSON.parse(localStorage.getItem(KEY))||{profile:{},history:[],draft:null};if(saved.draft&&saved.draft.generatorVersion!==GENERATOR_VERSION)saved.draft=null;return saved}catch{return{profile:{},history:[],draft:null}}}
+function defaultData(){return{profile:{},history:[],draft:null,generatorLog:{usedPromptKeys:[],sessionCounter:0}}}
+function shapeData(saved){saved=saved||defaultData();saved.profile=saved.profile||{};saved.history=Array.isArray(saved.history)?saved.history:[];saved.generatorLog=saved.generatorLog||{};saved.generatorLog.usedPromptKeys=Array.isArray(saved.generatorLog.usedPromptKeys)?saved.generatorLog.usedPromptKeys:[];saved.generatorLog.sessionCounter=Number(saved.generatorLog.sessionCounter)||0;if(saved.draft&&saved.draft.generatorVersion!==GENERATOR_VERSION)saved.draft=null;return saved}
+function load(){try{return shapeData(JSON.parse(localStorage.getItem(KEY))||defaultData())}catch{return defaultData()}}
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
 function normalize(v){return String(v??"").toLowerCase().replace(/\s/g,"").replace(/[−–]/g,"-").replace(/[₀-₉]/g,c=>"₀₁₂₃₄₅₆₇₈₉".indexOf(c))}
+function questionKey(q){return normalize(`${q.topic}|${q.difficulty}|${q.prompt}`)}
+function rememberQuestionSet(questions){data=shapeData(data);let keys=data.generatorLog.usedPromptKeys,seen=new Set(keys);questions.forEach(q=>{let key=questionKey(q);if(!seen.has(key)){keys.push(key);seen.add(key)}});data.generatorLog.usedPromptKeys=keys.slice(-900);save()}
 function isCorrect(q,a){return Array.isArray(q.answer)?q.answer.some(x=>normalize(x)===normalize(a)):normalize(q.answer)===normalize(a)}
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 function grade(p){return p>=93?"A":p>=90?"A−":p>=87?"B+":p>=83?"B":p>=80?"B−":p>=77?"C+":p>=73?"C":p>=70?"C−":p>=60?"Needs review":"Reteach needed"}
@@ -54,7 +58,8 @@ async function requestPremium(){try{if(!authUser)return;await fb.firestore().col
 async function renderAdmin(){try{if(!isAdminEmail(authUser?.email))throw new Error("Admin only.");let db=fb.firestore(),usersSnap=await db.collection("users").get(),reqSnap=await db.collection("premiumRequests").get(),users=usersSnap.docs.map(d=>({uid:d.id,...d.data()})),requests=reqSnap.docs.map(d=>({uid:d.id,...d.data()}));renderAdminLists(users,requests,[],async uid=>{await db.collection("users").doc(uid).set({accountType:"premium",premiumStatus:"approved"},{merge:true});await db.collection("premiumRequests").doc(uid).delete()})}catch(err){$("#premiumRequests").innerHTML=`<p class="fine-print">${escapeHtml(err.message||"Admin data unavailable.")}</p>`}}
 function applyProfile(){let p=data.profile;document.documentElement.dataset.theme=p.theme||"lavender";$("#studentName").value=p.name||"";$("#voiceMode").value=p.voice||"bestie";$("#planLength").value=p.plan||"4";$("#themeSelect").value=p.theme||"lavender";$("#examMode").value=p.examMode||"adaptive";$("#topicSelect").value=p.topic||"Functions";$("#topicDifficulty").value=p.topicDifficulty||"Warm-up";$("#topicQuestionCount").value=p.topicQuestionCount||"10";$("#topicTestMinutes").value=p.topicTestMinutes||"30";updateSetupMode()}
 function getFocus(){if(!data.history.length)return"Diagnostic mix";let t=data.history[0].topics||{};return Object.entries(t).sort((a,b)=>a[1].percent-b[1].percent)[0]?.[0]||"Mixed review"}
-function chooseQuestions(){let weak=getFocus(),weakPool=QUESTIONS.filter(q=>q.topic===weak),other=QUESTIONS.filter(q=>q.topic!==weak);return shuffle([...shuffle(weakPool).slice(0,4),...shuffle(other).slice(0,10-Math.min(4,weakPool.length))]).slice(0,10)}
+function allTopics(){return [...new Set(QUESTIONS.map(q=>q.topic))]}
+function chooseQuestions(){data=shapeData(data);let topics=allTopics(),weak=getFocus(),focus=topics.includes(weak)?weak:topics[data.generatorLog.sessionCounter%topics.length],levels=["Warm-up","Easy","Medium","Honors"],questions=[];questions.push(...chooseTopicQuestions(focus,3,levels[data.generatorLog.sessionCounter%levels.length],{remember:false}));for(let i=0;questions.length<10&&i<topics.length*2;i++){let topic=topics[(i+data.generatorLog.sessionCounter)%topics.length];questions.push(...chooseTopicQuestions(topic,1,levels[i%levels.length],{remember:false}))}let unique=[],seen=new Set();questions.forEach(q=>{let key=questionKey(q);if(!seen.has(key)&&unique.length<10){seen.add(key);unique.push(q)}});rememberQuestionSet(unique);return unique}
 function gcd(a,b){while(b)[a,b]=[b,a%b];return Math.abs(a)}
 function generatedTopicQuestion(topic,i,difficulty){
   const level=difficulty||["Warm-up","Easy","Medium","Honors"][[0,1,2,3][Math.min(3,Math.floor(i%8/2))]],boost={ "Warm-up":0, Easy:1, Medium:2, Honors:3 }[level]||0;
@@ -68,39 +73,40 @@ function generatedTopicQuestion(topic,i,difficulty){
     return{...base,prompt:`If f(x) = ${a}x ${sign(b)}, find f(${x}).`,answer:[String(answer),`f(${x})=${answer}`],lesson:"Function notation means substitute the given input for x, then simplify using order of operations.",explanation:`Substitute ${x}: ${a}(${x}) ${sign(b)} = ${answer}.`,mistake:"Substitution error"};
   }
   if(topic==="Quadratics"){
-    let r1=1+i%6,r2=-(1+(i*2)%6),sum=r1+r2,product=r1*r2,mid=-sum;
+    let r1=1+i%9,r2=-(1+((Math.floor(i/9)*5+i*7)%9)),sum=r1+r2,product=r1*r2,mid=-sum;
     return{...base,prompt:`Solve x^2 ${sign(mid)}x ${sign(product)} = 0. Give both solutions.`,answer:[`${r1},${r2}`,`${r2},${r1}`,`x=${r1},x=${r2}`,`x=${r2},x=${r1}`],lesson:"Factor the quadratic, then set each factor equal to zero.",explanation:`It factors as (x-${r1})(x${r2<0?"+":"-"}${Math.abs(r2)}), so x=${r1} or x=${r2}.`,mistake:"Factoring error"};
   }
   if(topic==="Complex Numbers"){
-    let exponent=5+(i*5)%20,cycle=["1","i","-1","-i"],answer=cycle[exponent%4];
+    let exponent=5+(i*7)%44,cycle=["1","i","-1","-i"],answer=cycle[exponent%4];
     return{...base,type:"mc",prompt:`Simplify i^${exponent}.`,choices:["1","-1","i","-i"],answer,lesson:"Powers of i repeat every four: 1, i, -1, -i. Use the exponent's remainder after division by 4.",explanation:`${exponent} has remainder ${exponent%4} when divided by 4, so the value is ${answer}.`,mistake:"Power cycle error"};
   }
   if(topic==="Polynomials"){
-    let a=1+(i*2)%6,b=(i*3)%9-4,c=1+i%7,answer=a*a+b*a+c;
+    let a=1+i%9,b=((Math.floor(i/9)*2+i*3)%11)-5,c=1+(Math.floor(i/99)+i)%9,answer=a*a+b*a+c;
     return{...base,prompt:`Find the remainder when p(x)=x^2 ${sign(b)}x + ${c} is divided by x-${a}.`,answer:[String(answer)],lesson:"The Remainder Theorem says the remainder after dividing p(x) by x-a is p(a).",explanation:`p(${a})=${a}^2 ${sign(b)}(${a})+${c}=${answer}.`,mistake:"Remainder Theorem error"};
   }
   if(topic==="Rational Functions"){
-    let a=2+(i*2)%8;
+    let a=2+(i*5)%13;
+    if(i%2)return{...base,type:"mc",prompt:`Simplify (x^2-${a*a})/(x+${a}), where x cannot equal -${a}.`,choices:[`x-${a}`,`x+${a}`,`x^2+${a}`,"1"],answer:`x-${a}`,lesson:"Factor a difference of squares: x^2-a^2=(x-a)(x+a), then cancel the common factor while keeping the restriction.",explanation:`x^2-${a*a}=(x-${a})(x+${a}), so the simplified expression is x-${a}.`,mistake:"Factoring or restriction error"};
     return{...base,type:"mc",prompt:`Simplify (x^2-${a*a})/(x-${a}), where x cannot equal ${a}.`,choices:[`x-${a}`,`x+${a}`,`x^2+${a}`,"1"],answer:`x+${a}`,lesson:"Factor a difference of squares: x^2-a^2=(x-a)(x+a), then cancel the common factor while keeping the restriction.",explanation:`x^2-${a*a}=(x-${a})(x+${a}), so the simplified expression is x+${a}.`,mistake:"Factoring or restriction error"};
   }
   if(topic==="Radicals"){
-    let squareFree=[2,3,5,6,7,10,11,13][(i*3)%8],coefficient=2+(i*2)%6,radicand=coefficient*coefficient*squareFree;
+    let squareFree=[2,3,5,6,7,10,11,13][(i*3)%8],coefficient=2+(i*5)%7,radicand=coefficient*coefficient*squareFree;
     if(level==="Easy"){squareFree=[2,3,5][i%3];coefficient=2+i%3;radicand=coefficient*coefficient*squareFree}
     return{...base,prompt:`Simplify sqrt(${radicand}).`,answer:[`${coefficient}sqrt(${squareFree})`,`${coefficient}sqrt${squareFree}`],lesson:"Find the largest perfect-square factor, take its square root outside, and leave the square-free factor inside.",explanation:`${radicand}=${coefficient*coefficient}*${squareFree}, so sqrt(${radicand})=${coefficient}sqrt(${squareFree}).`,mistake:"Radical simplification"};
   }
   if(topic==="Exponential Functions"){
-    let bases=[2,3,4,5],baseNum=bases[(i+Math.floor(i/4))%bases.length],exponent=2+(i*2)%4,value=baseNum**exponent,coef=2+i%4,shift=i%2+1;
+    let bases=[2,3,4,5],baseNum=bases[(i+Math.floor(i/4))%bases.length],exponent=2+(i*5)%4,value=baseNum**exponent,coef=2+i%4,shift=i%3+1;
     if(i%4===1)return{...base,prompt:`Solve ${coef}*${baseNum}^x = ${coef*value}.`,answer:[String(exponent),`x=${exponent}`],lesson:"First divide away the coefficient, then match powers with the same base.",explanation:`Divide by ${coef}: ${baseNum}^x=${value}. Since ${baseNum}^${exponent}=${value}, x=${exponent}.`,mistake:"Exponent rule error"};
     if(i%4===2)return{...base,prompt:`Solve ${baseNum}^(x+${shift}) = ${baseNum**(exponent+shift)}.`,answer:[String(exponent),`x=${exponent}`],lesson:"When the bases match, set the exponents equal and solve the small equation.",explanation:`x+${shift}=${exponent+shift}, so x=${exponent}.`,mistake:"Exponent equation error"};
     if(i%4===3)return{...base,prompt:`Solve ${baseNum}^(x-${shift}) = ${baseNum**exponent}.`,answer:[String(exponent+shift),`x=${exponent+shift}`],lesson:"When the bases match, set the exponents equal and solve the small equation.",explanation:`x-${shift}=${exponent}, so x=${exponent+shift}.`,mistake:"Exponent equation error"};
     return{...base,prompt:`Solve ${baseNum}^x = ${value}.`,answer:[String(exponent),`x=${exponent}`],lesson:"This is exponential because x is in the exponent. Write both sides with the same base, then set the exponents equal.",explanation:`${value}=${baseNum}^${exponent}, so x=${exponent}.`,mistake:"Exponent rule error"};
   }
   if(topic==="Logarithms"){
-    let bases=[2,3,4,5],baseNum=bases[(i+Math.floor(i/4))%bases.length],exponent=2+(i*2)%4,value=baseNum**exponent;
-    if(level==="Warm-up"){baseNum=2+i%2;exponent=2+i%3;value=baseNum**exponent}
-    if(i%4===1)return{...base,prompt:`Solve log base ${baseNum} of x = ${exponent}.`,answer:[String(value),`x=${value}`],lesson:"A log is asking for an exponent. If log base a of b = c, then a^c=b.",explanation:`${baseNum}^${exponent}=${value}, so x=${value}.`,mistake:"Logarithm meaning error"};
-    if(i%4===2)return{...base,type:"mc",prompt:`Which equation matches log base ${baseNum} of ${value} = ${exponent}?`,choices:[`${baseNum}^${exponent}=${value}`,`${exponent}^${baseNum}=${value}`,`${value}^${baseNum}=${exponent}`,`${baseNum}^${value}=${exponent}`],answer:`${baseNum}^${exponent}=${value}`,lesson:"log base a of b = c means a^c=b.",explanation:`The base is ${baseNum}, the exponent is ${exponent}, and the result is ${value}.`,mistake:"Log form confusion"};
-    if(i%4===3)return{...base,prompt:`Evaluate log base ${baseNum} of ${value*baseNum}, then subtract 1.`,answer:[String(exponent),`${exponent}`],lesson:"A logarithm asks what exponent makes the base reach the number.",explanation:`${value*baseNum}=${baseNum}^${exponent+1}, so the power is ${exponent+1}. Then ${exponent+1}-1=${exponent}.`,mistake:"Logarithm meaning error"};
+    let bases=[2,3,4,5],baseNum=bases[i%bases.length],exponent=2+(Math.floor(i/4)%4),value=baseNum**exponent,form=Math.floor(i/16)%4;
+    if(level==="Warm-up"){baseNum=bases[i%bases.length];exponent=2+(Math.floor(i/4)%4);value=baseNum**exponent}
+    if(form===1)return{...base,prompt:`Solve log base ${baseNum} of x = ${exponent}.`,answer:[String(value),`x=${value}`],lesson:"A log is asking for an exponent. If log base a of b = c, then a^c=b.",explanation:`${baseNum}^${exponent}=${value}, so x=${value}.`,mistake:"Logarithm meaning error"};
+    if(form===2)return{...base,type:"mc",prompt:`Which equation matches log base ${baseNum} of ${value} = ${exponent}?`,choices:[`${baseNum}^${exponent}=${value}`,`${exponent}^${baseNum}=${value}`,`${value}^${baseNum}=${exponent}`,`${baseNum}^${value}=${exponent}`],answer:`${baseNum}^${exponent}=${value}`,lesson:"log base a of b = c means a^c=b.",explanation:`The base is ${baseNum}, the exponent is ${exponent}, and the result is ${value}.`,mistake:"Log form confusion"};
+    if(form===3)return{...base,prompt:`Evaluate log base ${baseNum} of ${value*baseNum}, then subtract 1.`,answer:[String(exponent),`${exponent}`],lesson:"A logarithm asks what exponent makes the base reach the number.",explanation:`${value*baseNum}=${baseNum}^${exponent+1}, so the power is ${exponent+1}. Then ${exponent+1}-1=${exponent}.`,mistake:"Logarithm meaning error"};
     return{...base,prompt:`What is log base ${baseNum} of ${value}? Translation: ${baseNum} to what power equals ${value}?`,answer:[String(exponent),`log_${baseNum}(${value})=${exponent}`],lesson:"A logarithm asks what exponent is needed. log base a of b means: a to what power equals b?",explanation:`${baseNum}^${exponent}=${value}, so the answer is ${exponent}.`,mistake:"Logarithm meaning error"};
   }
   if(topic==="Sequences"){
@@ -108,11 +114,11 @@ function generatedTopicQuestion(topic,i,difficulty){
     return{...base,prompt:`Find term ${term} of the arithmetic sequence with a1=${first} and common difference d=${difference}.`,answer:[String(answer),`a${term}=${answer}`],lesson:"Use a_n=a1+(n-1)d for an arithmetic sequence.",explanation:`a${term}=${first}+(${term}-1)(${difference})=${answer}.`,mistake:"Sequence formula error"};
   }
   if(topic==="Systems"){
-    let x=1+(i*2)%6,y=2+(i*3)%8,m1=1+i%3,m2=-(1+((i+1)%3)),b1=y-m1*x,b2=y-m2*x;
+    let x=1+i%8,y=2+(Math.floor(i/8)+i*3)%9,m1=1+(Math.floor(i/72)+i)%3,m2=-(1+((Math.floor(i/24)+i)%3)),b1=y-m1*x,b2=y-m2*x;
     return{...base,prompt:`Solve the system y=${m1}x ${sign(b1)} and y=${m2}x ${sign(b2)}. Give the ordered pair.`,answer:[`(${x},${y})`,`${x},${y}`],lesson:"Set the two expressions for y equal, solve for x, and substitute to find y.",explanation:`The two equations are equal at x=${x}; substituting gives y=${y}. The solution is (${x}, ${y}).`,mistake:"System solving error"};
   }
   if(topic==="Trigonometry"){
-    let degrees=[30,45,60,90,120,135,150,210,225,240,300,315][(i*5)%12],common=gcd(degrees,180),num=degrees/common,den=180/common,answer=den===1?`${num===1?"":num}pi`:`${num===1?"":num}pi/${den}`;
+    let degrees=[15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345][(i*5)%23],common=gcd(degrees,180),num=degrees/common,den=180/common,answer=den===1?`${num===1?"":num}pi`:`${num===1?"":num}pi/${den}`;
     return{...base,prompt:`Convert ${degrees} degrees to radians.`,answer:[answer],lesson:"Multiply degrees by pi/180, then reduce the fraction.",explanation:`${degrees}*pi/180 simplifies to ${answer}.`,mistake:"Degree/radian conversion"};
   }
   if(topic==="Functions"){
@@ -158,7 +164,8 @@ function generatedTopicQuestion(topic,i,difficulty){
   let degrees=[30,45,60,90,120,135,150][i%7],common=gcd(degrees,180),num=degrees/common,den=180/common,answer=den===1?`${num===1?"":num}π`:`${num===1?"":num}π/${den}`;
   return{...base,prompt:`Convert ${degrees}° to radians.`,answer:[answer,`${num===1?"":num}pi/${den}`,den===1?`${num}pi`:answer],lesson:"Multiply degrees by π/180, then reduce the fraction.",explanation:`${degrees}·π/180 simplifies to ${answer}.`,mistake:"Degree/radian conversion"};
 }
-function chooseTopicQuestions(topic,count,difficulty){return Array.from({length:count},(_,i)=>{let q=generatedTopicQuestion(topic,i,difficulty);if(topic==="Exponential Functions"&&/log/i.test(`${q.prompt} ${q.lesson} ${q.explanation}`)){q=generatedTopicQuestion(topic,i+100,difficulty)}return q})}
+function cleanGeneratedQuestion(topic,q,seed){if(topic==="Exponential Functions"&&/log/i.test(`${q.prompt} ${q.lesson} ${q.explanation}`)){q=generatedTopicQuestion(topic,seed+41,q.difficulty)}q.id=`${q.id}-${Math.floor(Math.random()*100000)}`;return q}
+function chooseTopicQuestions(topic,count,difficulty,options={}){data=shapeData(data);let remember=options.remember!==false,used=new Set(data.generatorLog.usedPromptKeys),picked=[],pickedKeys=new Set(),seed=(++data.generatorLog.sessionCounter*97)+(Date.now()%997)+Math.floor(Math.random()*997),limit=Math.max(900,count*120);for(let tries=0;picked.length<count&&tries<limit;tries++){let q=cleanGeneratedQuestion(topic,generatedTopicQuestion(topic,seed+tries*3,difficulty),seed+tries*3),key=questionKey(q);if(!pickedKeys.has(key)&&!used.has(key)){picked.push(q);pickedKeys.add(key)}}for(let tries=0;picked.length<count&&tries<limit;tries++){let q=cleanGeneratedQuestion(topic,generatedTopicQuestion(topic,seed+tries*5+13,difficulty),seed+tries*5+13),key=questionKey(q);if(!pickedKeys.has(key)){picked.push(q);pickedKeys.add(key)}}while(picked.length<count){let q=cleanGeneratedQuestion(topic,generatedTopicQuestion(topic,seed+picked.length*11+503,difficulty),seed+picked.length*11+503);q.prompt=`${q.prompt} (practice version ${picked.length+1})`;picked.push(q)}if(remember)rememberQuestionSet(picked);return picked}
 function validPositiveInteger(value){return Number.isInteger(Number(value))&&Number(value)>0}
 function updateSetupMode(){let topicMode=$("#examMode").value==="topic",day=data.history.length+1,count=topicMode?$("#topicQuestionCount").value:10,minutes=topicMode?$("#topicTestMinutes").value:30,difficulty=$("#topicDifficulty").value||"Warm-up",focus=topicMode?`${$("#topicSelect").value} • ${difficulty}`:getFocus();$("#topicControls").classList.toggle("hidden",!topicMode);$("#focusLabel").textContent=topicMode?"Selected topic":"Today’s adaptive focus";$("#todayFocus").textContent=focus;$("#dayLabel").textContent=`Day ${day} • ${count||"—"} questions • ${minutes||"—"} minutes`}
 async function startExam(e){e?.preventDefault();let mode=$("#examMode").value,topic=$("#topicSelect").value,difficulty=$("#topicDifficulty").value,count=mode==="topic"?Number($("#topicQuestionCount").value):10,minutes=mode==="topic"?Number($("#topicTestMinutes").value):30;if(mode==="topic"&&(!validPositiveInteger(count)||!validPositiveInteger(minutes))){toast("Enter positive whole numbers for questions and minutes.");return}if(!(await canStartPractice()))return;data.profile={name:$("#studentName").value.trim(),voice:$("#voiceMode").value,plan:$("#planLength").value,theme:$("#themeSelect").value,examMode:mode,topic,topicDifficulty:difficulty,topicQuestionCount:String(count),topicTestMinutes:String(minutes)};exam={generatorVersion:GENERATOR_VERSION,mode,selectedTopic:mode==="topic"?topic:null,selectedDifficulty:mode==="topic"?difficulty:null,questionCount:count,timeLimitMinutes:minutes,questions:mode==="topic"?chooseTopicQuestions(topic,count,difficulty):chooseQuestions(),answers:{},hints:{},assisted:{},chats:{},index:0,seconds:minutes*60,totalSeconds:minutes*60,startedAt:new Date().toISOString(),formulaOpens:0};data.draft=exam;save();applyProfile();showView("exam");$("#examStudent").textContent=data.profile.voice==="bestie"?`${data.profile.name}, let's cook.`:`${data.profile.name}'s exam`;renderQuestion();startTimer()}

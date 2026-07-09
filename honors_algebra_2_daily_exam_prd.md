@@ -114,6 +114,8 @@ The app should use the first 2 weeks for topic coverage and the third week for c
 
 The exam generator must include real Algebra 2 Honors topics, not just Algebra 1.
 
+The generator must also avoid exact repeated questions. For adaptive mixes, selected-topic tests, and printable worksheets, the app should remember recently used question prompts on the device and skip them when building a new set. If the student chooses a large number of questions, the app may reuse the same skill type, but the prompt and numbers should change before any exact repeat appears.
+
 ### Core Topic Bank
 
 #### A. Function Foundations
@@ -235,7 +237,7 @@ Selecting one must never generate questions from the other.
 
 The app must not use a combined **Exponentials & Logs** topic label in the active question bank. Starter, adaptive, and custom-generated questions should label exponential-only questions as **Exponential Functions** and logarithm-only questions as **Logarithms**.
 
-Beginner-facing logarithm questions should show the formal log notation first, then immediately include a plain-language translation. Example: “What is log base 2 of 4? Translation: 2 to what power equals 4?” The notation should not appear by itself in early or warm-up questions.
+Beginner-facing logarithm questions should show the formal log notation first, then include a plain-language translation only when the translation genuinely helps. Example: “What is log base 2 of 4? Translation: 2 to what power equals 4?” More advanced or already-clear log questions should not be cluttered with unnecessary translation text.
 
 Example question types:
 - Solve \(3 \cdot 2^x = 48\)
@@ -1114,6 +1116,163 @@ Mobile requirements:
 - Offline caching of the app shell after the first successful hosted visit
 
 The app must continue saving the student's profile and results in browser localStorage. Because localStorage is device-specific, phone results and computer results are not automatically synchronized in the MVP. Offline installation and caching require the app to be served over HTTPS (or localhost during development); they do not activate when the HTML file is opened directly from the filesystem.
+
+### Server-Backed Authentication, Accounts, Premium, and Admin Access
+
+The current static MVP uses localStorage and GitHub Pages. Real Google/Microsoft sign-in, premium access, administrator approval, cross-device usage tracking, and OpenAI API model routing cannot be implemented securely with only static HTML/CSS/JavaScript. These features require a backend service, a database, and server-side API calls.
+
+#### Required Authentication Flow
+
+Before accessing the app, users should see an authentication pop-up/page with:
+
+- **Continue with Google**
+- **Continue with Microsoft**
+
+The backend must verify the user’s identity using the provider’s verified OAuth/OpenID token. The frontend must not decide whether a user is premium or admin by itself.
+
+On first successful sign-in, a new user account should be created as:
+
+- `accountType: "basic"`
+- `premiumStatus: "none"`
+- `createdAt`
+- `lastLoginAt`
+- `provider`
+- `email`
+- `displayName`
+
+#### Account Types
+
+The app should support two account types:
+
+1. **Basic / Free**
+   - Costs the user nothing.
+   - Can take **one test per calendar day**.
+   - Can generate limited worksheets, if usage limits are later added.
+   - Uses the configured low-cost OpenAI model for AI-backed question generation, grading, explanations, and feedback.
+
+2. **Premium**
+   - Can take unlimited tests.
+   - Can use premium AI-backed features without the one-test-per-day limit.
+   - Uses the configured premium OpenAI model for AI-backed question generation, grading, explanations, and feedback.
+
+The following emails must always be treated as premium:
+
+- `radhikatchandra@outlook.com`
+- `radhikachandra809@gmail.com`
+- `ranveer.chandra@gmail.com`
+
+These same emails should also be administrator accounts.
+
+#### OpenAI Model Routing
+
+All OpenAI API calls must happen server-side. The browser must never contain an OpenAI API key.
+
+Model routing should be configurable on the backend:
+
+- Basic users: use the cheapest currently approved OpenAI model for simple generation/grading tasks.
+- Premium users: use the configured premium model, requested as `gpt-5.5` if available in the connected OpenAI account.
+
+If a requested model is unavailable, the backend should fail safely with an administrator-visible configuration error instead of silently switching models. Model IDs should be stored in server configuration, not hard-coded throughout the frontend.
+
+#### Basic Daily Limit
+
+Basic users may start only **one test per day**. This limit must be enforced by the backend using server timestamps, not by localStorage.
+
+The backend should store:
+
+- `testsStartedToday`
+- `lastTestStartedAt`
+- `testStartHistory`
+- `usageByDay`
+
+If a basic user reaches the daily limit, the Home screen should show:
+
+> You’ve used your free test for today. Come back tomorrow or request Premium.
+
+#### Premium Upgrade Request
+
+Basic users should see an **Upgrade to Premium** option on the Home screen.
+
+When clicked, the user can submit a premium request. The backend should store:
+
+- user id
+- email
+- display name
+- request date/time
+- request status: `pending`, `approved`, or `denied`
+- admin decision date/time
+- approving admin email, if approved
+
+Until approved, the user remains Basic.
+
+#### Administrator Dashboard
+
+Administrators should have an additional dashboard area visible only to admin accounts.
+
+Admin dashboard requirements:
+
+- View all signed-in users.
+- See each user’s email, display name, provider, account type, premium status, first login, and last login.
+- See who requested Premium.
+- Approve or deny Premium requests.
+- Manually change a user between Basic and Premium.
+- Search/filter by email and account type.
+- View usage totals for:
+  - last 24 hours
+  - last 30 days
+  - current month
+  - previous months
+  - current year
+  - all time
+- View per-user usage:
+  - tests started
+  - tests completed
+  - worksheets generated
+  - AI questions generated
+  - AI grading calls
+  - estimated model usage/cost if available from backend logs
+
+Admin actions must be logged in an audit log.
+
+#### Security Requirements
+
+- Auth tokens must be verified on the backend.
+- Premium/admin status must be checked on the backend for protected actions.
+- OpenAI API keys must never be exposed in frontend JavaScript.
+- A user changing localStorage or browser code must not be able to become Premium or Admin.
+- Admin emails should be stored in server configuration and checked against verified sign-in emails.
+- Usage limits must use server timestamps.
+- Admin dashboards must require verified admin authorization on every request.
+
+#### Suggested Backend Options
+
+Acceptable backend options include:
+
+- Firebase Authentication + Firestore + Cloud Functions
+- Supabase Auth + Postgres + Edge Functions
+- A custom Node/Express backend with a hosted database
+
+GitHub Pages can still host the frontend, but authentication, premium status, usage limits, admin actions, and OpenAI calls must be handled by the backend.
+
+#### Firebase Implementation Files Added
+
+The Firebase-backed version should include these project files:
+
+- `firebase-config.js` for the public Firebase web app configuration and admin email list.
+- `firebase.json` for Firebase Hosting, Firestore, and Functions configuration.
+- `firestore.rules` to prevent users from editing their own premium/admin status.
+- `firestore.indexes.json` for admin request and usage queries.
+- `functions/package.json` for Cloud Functions dependencies.
+- `functions/index.js` for secure callable backend functions:
+  - `syncUser`
+  - `requestPremium`
+  - `startTestSession`
+  - `logUsage`
+  - `adminListDashboard`
+  - `adminSetPremium`
+  - `generateWithOpenAI`
+
+The frontend should include a sign-in gate, Google/Microsoft sign-in buttons, sign-out, account status display, Premium request button, and Admin dashboard tab for administrator accounts.
 
 ### Minimum Storage
 
