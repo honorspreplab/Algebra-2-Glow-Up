@@ -20,6 +20,13 @@
   --field-gradient:linear-gradient(135deg,color-mix(in srgb,var(--bg) 94%,var(--accent2)),color-mix(in srgb,var(--surface) 92%,var(--accent)));
   --glass-gradient:linear-gradient(110deg,color-mix(in srgb,var(--surface) 84%,transparent),color-mix(in srgb,var(--surface2) 82%,transparent),color-mix(in srgb,var(--surface) 86%,transparent));
 }
+
+.small-lede{font-size:15px;margin:0 0 18px}
+.test-summary{padding:14px 16px;border-radius:13px;background:var(--surface2);font-weight:800;margin-bottom:14px}
+.test-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border-top:1px solid var(--line);padding:13px 0}
+.test-row span{font-size:12px;color:var(--muted)}
+.test-pass strong,.test-summary.test-pass{color:var(--good)}
+.test-fail strong,.test-summary.test-fail{color:var(--bad)}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .topbar{background:var(--glass-gradient);border-bottom-color:color-mix(in srgb,var(--accent) 28%,var(--line))}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.setup-card,.panel,.question-card,.stat-card,dialog){background:var(--card-gradient);border-color:color-mix(in srgb,var(--accent) 22%,var(--line))}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.today-box,.soft,.lesson,.question-meta span,.nav-link:hover,.nav-link.active,.step-dot,.results-hero,.icon-button){background:var(--soft-gradient)}

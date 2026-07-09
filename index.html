@@ -15,15 +15,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=36">
+  <link rel="stylesheet" href="styles.css?v=37">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v36</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v37</small></button>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
       <button class="nav-link" data-view="dashboard">Progress</button>
       <button class="nav-link hidden" id="adminNav" data-view="admin">Admin</button>
+      <button class="nav-link hidden" id="testsNav" data-view="tests">Topic tests</button>
       <button class="nav-link" id="formulaTop">Formula sheet</button>
       <button class="nav-link" id="signOutButton">Sign out</button>
     </nav>
@@ -171,6 +172,16 @@
       <article class="panel"><div class="panel-title"><h2>Signed-in users</h2><span>Usage summary</span></div><div id="adminUsers"></div></article>
     </section>
 
+    <section id="testsView" class="view hidden dashboard-page">
+      <div class="page-heading"><div><p class="kicker">APP CHECKUP</p><h1>Topic generator tests</h1></div><button class="primary" id="runTopicTests">Run topic tests</button></div>
+      <article class="panel">
+        <div class="panel-title"><h2>What this checks</h2><span>Local only</span></div>
+        <p class="lede small-lede">These tests make sure each Algebra 2 topic creates the right kind of questions, avoids repeated prompts, and keeps Exponential Functions separate from Logarithms.</p>
+        <div id="topicTestSummary" class="test-summary">Click “Run topic tests” to check the app.</div>
+        <div id="topicTestResults"></div>
+      </article>
+    </section>
+
     <section id="worksheetView" class="view hidden worksheet-page">
       <div class="page-heading no-print"><div><p class="kicker">PRINTABLE PRACTICE</p><h1>Worksheet builder</h1></div><div class="print-actions"><button class="soft" data-view="home">Back home</button><button class="primary" id="printWorksheet">Print worksheet 🖨</button></div></div>
       <article id="worksheetPaper" class="worksheet-paper"></article>
@@ -196,7 +207,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
-  <script src="firebase-config.js?v=36"></script>
-  <script src="app.js?v=36"></script>
+  <script src="firebase-config.js?v=37"></script>
+  <script src="app.js?v=37"></script>
 </body>
 </html>
