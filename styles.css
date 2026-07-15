@@ -105,6 +105,7 @@ body.signed-in #authGate{display:none!important}
 .confirm-copy{color:var(--muted);line-height:1.6;margin:18px 0 0}
 .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;flex-wrap:wrap}
 .danger-action{background:linear-gradient(135deg,var(--bad),var(--accent2));color:#fff}
+.step-dot.app-mark{background:var(--accent-fill);color:#fff;font-size:17px;line-height:1;letter-spacing:-.06em}
 @media(max-width:560px){.modal-actions{display:grid}.modal-actions button{width:100%}}
 
 .today-box{
