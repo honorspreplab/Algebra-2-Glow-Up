@@ -7,19 +7,19 @@
   <meta name="theme-color" content="#7357d6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Algebra Glow-Up">
+  <meta name="apple-mobile-web-app-title" content="Honors Algebra 2 Prep">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.svg">
-  <title>Algebra 2 Glow-Up</title>
+  <title>Honors Algebra 2 Prep</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=47">
+  <link rel="stylesheet" href="styles.css?v=49">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Algebra 2 Glow-Up <small id="appVersion">v47</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span>∿</span> Honors Algebra 2 Prep <small id="appVersion">v49</small></button>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
       <button class="nav-link" data-view="dashboard">Progress</button>
@@ -190,6 +190,18 @@
     </div>
   </dialog>
 
+  <dialog id="clearDataModal" class="confirm-modal">
+    <div class="modal-head">
+      <div><p class="kicker">HONORS ALGEBRA 2 PREP</p><h2>Clear your data?</h2></div>
+      <button class="icon-button" id="cancelClearData" aria-label="Close">×</button>
+    </div>
+    <p class="confirm-copy">This clears your profile and exam results from this browser only. Your signed-in account will stay available.</p>
+    <div class="modal-actions">
+      <button class="soft" type="button" id="keepData">Keep my data</button>
+      <button class="primary danger-action" type="button" id="confirmClearData">Yes, clear data</button>
+    </div>
+  </dialog>
+
   <dialog id="formulaModal">
     <div class="modal-head"><div><p class="kicker">QUICK REFERENCE</p><h2>Formula sheet</h2></div><button class="icon-button" id="closeFormula" aria-label="Close">×</button></div>
     <div class="formula-intro"><strong>How to use this sheet</strong><p>Find the topic, read “Use it when…,” then copy the example with your question’s numbers. Opening this sheet never lowers your score.</p></div>
@@ -209,7 +221,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
-  <script src="firebase-config.js?v=47"></script>
-  <script src="app.js?v=47"></script>
+  <script src="firebase-config.js?v=49"></script>
+  <script src="app.js?v=49"></script>
 </body>
 </html>
