@@ -116,6 +116,8 @@ The exam generator must include real Algebra 2 Honors topics, not just Algebra 1
 
 The generator must also avoid exact repeated questions. For adaptive mixes, selected-topic tests, and printable worksheets, the app should remember recently used question prompts on the device and skip them when building a new set. If the student chooses a large number of questions, the app may reuse the same skill type, but the prompt and numbers should change before any exact repeat appears.
 
+Question generation should primarily use OpenAI through Firebase Functions so the API key stays private. Basic accounts use the configured lower-cost OpenAI model, while Premium/Admin accounts use GPT-5.6. If the OpenAI/Firebase function is unavailable, the app may fall back to the local template generator so studying is not blocked.
+
 ### Core Topic Bank
 
 #### A. Function Foundations
@@ -1176,7 +1178,7 @@ All OpenAI API calls must happen server-side. The browser must never contain an 
 Model routing should be configurable on the backend:
 
 - Basic users: use the cheapest currently approved OpenAI model for simple generation/grading tasks.
-- Premium users: use the configured premium model, requested as `gpt-5.5` if available in the connected OpenAI account.
+- Premium users: use the configured premium model, requested as `gpt-5.6` if available in the connected OpenAI account.
 
 If a requested model is unavailable, the backend should fail safely with an administrator-visible configuration error instead of silently switching models. Model IDs should be stored in server configuration, not hard-coded throughout the frontend.
 
@@ -1237,6 +1239,7 @@ Admin dashboard requirements:
   - AI questions generated
   - AI grading calls
   - estimated model usage/cost if available from backend logs
+- Run an admin-only AI model health check that safely tests the configured Basic and Premium OpenAI models from the backend without exposing the API key.
 
 Admin actions must be logged in an audit log.
 

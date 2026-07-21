@@ -27,6 +27,9 @@
 .test-row span{font-size:12px;color:var(--muted)}
 .test-pass strong,.test-summary.test-pass{color:var(--good)}
 .test-fail strong,.test-summary.test-fail{color:var(--bad)}
+.fine-print.left{text-align:left}
+.model-test-results{margin-top:16px}
+.model-test-results .test-row span{max-width:520px;text-align:right;overflow-wrap:anywhere}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .topbar{background:var(--glass-gradient);border-bottom-color:color-mix(in srgb,var(--accent) 28%,var(--line))}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.setup-card,.panel,.question-card,.stat-card,dialog){background:var(--card-gradient);border-color:color-mix(in srgb,var(--accent) 22%,var(--line))}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.today-box,.soft,.lesson,.question-meta span,.nav-link:hover,.nav-link.active,.step-dot,.results-hero,.icon-button){background:var(--soft-gradient)}

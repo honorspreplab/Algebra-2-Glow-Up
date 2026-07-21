@@ -9,17 +9,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Honors Algebra 2 Prep">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg?v=57" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=57">
+  <link rel="icon" href="icon.svg?v=59" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=59">
   <title>Honors Algebra 2 Prep</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=57">
+  <link rel="stylesheet" href="styles.css?v=59">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=57" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v57</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=59" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v59</small></button>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
       <button class="nav-link" data-view="dashboard">Progress</button>
@@ -46,7 +46,7 @@
         <div class="trust-row"><span>✓ Google sign-in</span><span>✓ Progress saved</span><span>✓ Built for rising 9th graders</span></div>
       </div>
       <form id="setupForm" class="setup-card">
-        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=57" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
+        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=59" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
         <label>What should we call you?<input id="studentName" required maxlength="30" placeholder="Your first name" autocomplete="name"></label>
         <div class="field-grid">
           <label>Voice
@@ -168,6 +168,12 @@
     <section id="adminView" class="view hidden dashboard-page">
       <div class="page-heading"><div><p class="kicker">ADMIN</p><h1>Accounts & usage</h1></div><button class="primary" id="refreshAdmin">Refresh admin data</button></div>
       <div id="adminStats" class="stat-grid"></div>
+      <article class="panel">
+        <div class="panel-title"><h2>AI model health check</h2><span>Admin only</span></div>
+        <p class="fine-print left">Tests the configured Basic and Premium OpenAI models without showing the API key.</p>
+        <button class="soft" id="testAiModels" type="button">Test AI models</button>
+        <div id="modelTestResults" class="model-test-results"></div>
+      </article>
       <article class="panel"><div class="panel-title"><h2>Premium requests</h2><span>Admin only</span></div><div id="premiumRequests"></div></article>
       <article class="panel"><div class="panel-title"><h2>Signed-in users</h2><span>Usage summary</span></div><div id="adminUsers"></div></article>
     </section>
@@ -221,7 +227,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
-  <script src="firebase-config.js?v=57"></script>
-  <script src="app.js?v=57"></script>
+  <script src="firebase-config.js?v=59"></script>
+  <script src="app.js?v=59"></script>
 </body>
 </html>
