@@ -9,17 +9,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Honors Algebra 2 Prep">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg?v=59" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=59">
+  <link rel="icon" href="icon.svg?v=60" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=60">
   <title>Honors Algebra 2 Prep</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=59">
+  <link rel="stylesheet" href="styles.css?v=60">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=59" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v59</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=60" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v60</small></button>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
       <button class="nav-link" data-view="dashboard">Progress</button>
@@ -46,7 +46,7 @@
         <div class="trust-row"><span>✓ Google sign-in</span><span>✓ Progress saved</span><span>✓ Built for rising 9th graders</span></div>
       </div>
       <form id="setupForm" class="setup-card">
-        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=59" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
+        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=60" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
         <label>What should we call you?<input id="studentName" required maxlength="30" placeholder="Your first name" autocomplete="name"></label>
         <div class="field-grid">
           <label>Voice
@@ -134,6 +134,7 @@
           <p id="questionType" class="kicker">MULTIPLE CHOICE</p>
           <h1 id="questionPrompt"></h1>
           <div id="answerArea"></div>
+          <div id="adaptiveDifficultyControl" class="difficulty-control hidden"></div>
           <div id="lesson" class="lesson coach hidden" aria-live="polite"></div>
         <div class="help-row"><button class="soft" id="teachButton">✦ Open Study Coach</button><span id="saveStatus">Answer saves automatically</span></div>
         </article>
@@ -227,7 +228,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
-  <script src="firebase-config.js?v=59"></script>
-  <script src="app.js?v=59"></script>
+  <script src="firebase-config.js?v=60"></script>
+  <script src="app.js?v=60"></script>
 </body>
 </html>

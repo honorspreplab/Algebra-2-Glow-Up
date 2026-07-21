@@ -331,6 +331,7 @@ The setup screen must include a **Practice Type** dropdown with three choices:
    - Shows a difficulty dropdown with Warm-up, Easy, Medium, and Honors.
    - Shows a Question Amount number-entry field.
    - Shows a Test Time number-entry field measured in minutes.
+   - For Premium/Admin accounts only, each active question shows an option to make the **next** question easier or harder. This adjustment only affects the next unanswered question in that selected-topic test.
 3. **End-of-Unit Test**
    - Shows an Algebra 2 topic dropdown.
    - Shows Question Amount and Test Time fields.
@@ -340,6 +341,12 @@ The setup screen must include a **Practice Type** dropdown with three choices:
 - Every question in the session should practice the selected topic.
 - Questions must be generated with varied values and prompts so the same exact question does not repeat within the session, even when the requested amount is larger than the starter question bank.
 - Generated practice questions should use small, beginner-friendly numbers that cycle instead of growing forever. Long custom tests should not create huge radicals, exponents, system constants, sequence terms, or angle measures just because the student requested more questions.
+- Difficulty must feel noticeably different:
+  - **Warm-up** questions should be super easy, one-step, confidence-building problems.
+  - **Easy** questions should stay simple but may add one extra step.
+  - **Medium** questions should feel like normal class practice.
+  - **Honors** questions should be harder and more applied, but still use readable numbers.
+- Radical warm-ups should use very small radicands, generally 50 or below, and should not turn into giant three-digit square roots.
 - Generated practice questions should vary both the numbers and the prompt pattern. For example, exponential practice should mix direct equations, coefficient equations, and shifted-exponent equations instead of repeating the same template.
 - If the question generator is updated, old saved in-progress test drafts created by earlier generator versions should be cleared so stale oversized questions do not keep reappearing after an update.
 
@@ -354,6 +361,8 @@ If a student chooses **Save & exit** during a test, the Home setup card must sho
 The Home setup card should also include a **Make printable worksheet** option. It should generate a clean worksheet for Adaptive Mix, the selected single topic, or an End-of-Unit Test. For Adaptive Mix, the worksheet uses the fixed adaptive question count. For single-topic practice, it uses the selected topic, difficulty, and typed question amount. For End-of-Unit worksheets, it uses the selected topic and a mixed difficulty distribution. The worksheet should include blank answer space, multiple-choice options when needed, and an answer key on a separate printed page. The worksheet view should have a print button and print-friendly styling that hides the app navigation and gradient interface.
 
 When **Choose one topic** is selected, the setup controls should include a difficulty dropdown with **Warm-up**, **Easy**, **Medium**, and **Honors**. The selected difficulty applies to single-topic tests and single-topic printable worksheets. Adaptive Mix keeps its own mixed difficulty behavior.
+
+During a Premium/Admin selected-topic test, the student can choose whether the next question should be easier or harder. The app should regenerate only the next unanswered question, keep the current topic the same, save the choice in the draft, and never show this control for Basic users, Adaptive Mix, or End-of-Unit Tests.
 
 Each exam should be designed for exactly **30 minutes**.
 
@@ -472,6 +481,10 @@ Example messages:
 ## 9. Color Theme Dropdown
 
 The student should be able to choose a color theme from a dropdown menu.
+
+### App Logo Direction
+
+The app logo should feel like a polished real study app icon: friendly, soft, gender-neutral, and math-themed without being too childish. The preferred direction is a rounded gradient badge with a cute calculator/graph motif, small sparkle details, and balanced spacing so it still reads clearly at phone-icon size.
 
 ### Required Themes
 
@@ -1372,6 +1385,14 @@ The generator should know:
 - Whether hints should be generated
 - Whether explanations should be generated
 - Whether formula sheet entries are relevant
+
+The generator must obey the requested topic and difficulty. For selected-topic tests, it should not secretly mix topics, and it should not make every difficulty feel the same. It should also avoid oversized values:
+
+- Radicals: Warm-up <= 50, Easy <= 90, Medium <= 160, Honors <= 225
+- Exponential/logarithm prompts: avoid very large values such as 16384; use friendly powers and readable coefficients
+- Trigonometry: keep angle measures reasonable for the selected level
+
+If OpenAI returns too few usable questions after filtering for topic, difficulty, unique prompts, and friendly numbers, the frontend may fill the missing questions with the local template generator.
 
 ### Question Object Format
 
