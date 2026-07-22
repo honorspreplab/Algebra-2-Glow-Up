@@ -706,6 +706,7 @@ The final results should show:
 
 - Overall score
 - Unassisted score
+- A **Hints used** summary card containing one whole number only (for example, **6**). Do not combine hints and assisted counts into a slash value such as **6 / 0**.
 - Assisted questions list
 - Topics where help was used most often
 
