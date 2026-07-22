@@ -241,10 +241,13 @@ The app must not use a combined **Exponentials & Logs** topic label in the activ
 
 Beginner-facing logarithm questions should show the formal log notation first, then include a plain-language translation only when the translation genuinely helps. Example: “What is log base 2 of 4? Translation: 2 to what power equals 4?” More advanced or already-clear log questions should not be cluttered with unnecessary translation text.
 
+Logarithm practice must directly match the logarithm formula sheet instead of focusing only on basic evaluation and exponential-form conversion. Sets of six or more logarithm questions should cover the product rule, quotient rule, power rule, and the requirement that each logarithm input be positive. Difficulty should build naturally: Warm-up covers meaning and tiny evaluations; Easy applies one property at a time; Medium expands and condenses logarithms; Honors combines properties, solves logarithmic equations, and checks domain restrictions. Lessons and answer explanations must name the property used and show the substitution step clearly.
+
 Example question types:
 - Solve \(3 \cdot 2^x = 48\)
 - Convert \(\log_2 32 = 5\) to exponential form
-- Use log properties to expand or condense
+- Use the product, quotient, and power properties to expand or condense
+- Find the allowed domain by making the logarithm input positive
 - Model growth/decay from context
 
 ---
