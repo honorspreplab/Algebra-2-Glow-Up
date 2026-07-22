@@ -1,4 +1,4 @@
-const CACHE = "honors-algebra-2-prep-v64";
+const CACHE = "honors-algebra-2-prep-v66";
 const APP_FILES = ["./", "./index.html", "./login.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => {

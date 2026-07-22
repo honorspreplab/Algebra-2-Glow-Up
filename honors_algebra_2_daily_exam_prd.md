@@ -243,6 +243,8 @@ Beginner-facing logarithm questions should show the formal log notation first, t
 
 Logarithm practice must directly match the logarithm formula sheet instead of focusing only on basic evaluation and exponential-form conversion. Sets of six or more logarithm questions should cover the product rule, quotient rule, power rule, and the requirement that each logarithm input be positive. Difficulty should build naturally: Warm-up covers meaning and tiny evaluations; Easy applies one property at a time; Medium expands and condenses logarithms; Honors combines properties, solves logarithmic equations, and checks domain restrictions. Lessons and answer explanations must name the property used and show the substitution step clearly.
 
+Logarithm grading must accept harmless formatting differences. For example, `2log_b5`, `2log_b(5)`, and `2 * log base b of 5` are equivalent and should all be accepted. Removing the logarithm entirely is not equivalent: an answer of `10` must not be accepted when the required answer is `log_b(10)`. Combine/condense prompts must clearly tell the student to write one logarithm and keep the log notation.
+
 Starting a test must feel nearly instant and must not wait for an online model response. The app should immediately create a complete test with its built-in non-repeating generator and open the first question. Online-generated questions may quietly replace only later, unanswered questions after they arrive; the current question and every answered question must never change. The student-facing text should say **Creating your test…** and **Your test is ready.** without naming the AI provider or model. Provider and model details may remain visible only inside administrator health-check tools.
 
 Example question types:
@@ -1305,6 +1307,12 @@ The frontend should include a sign-in gate, Google/Microsoft sign-in buttons, si
 ### Minimum Storage
 
 Use local JSON files or browser local storage.
+
+### Saved Exam Results
+
+Every completed exam must remain available from **Progress → Recent sessions** with a **View results** button. A saved result must include the date, score, grade, time used, hint count, topic breakdown, every question, the student's answer, the accepted correct answer, whether the response was correct, and the explanation. Older summary-only results may show their saved score with a note that detailed review was not captured.
+
+Results must save immediately to browser `localStorage`. When a student is signed in, the app must also sync up to 100 recent results with the Firestore path `users/{uid}/examResults/{resultId}` so the same account can load its results on a phone or computer. Only the result owner and configured administrators may read or write those documents. Opening Progress must never depend on the cloud being available; local results remain the offline fallback.
 
 ### Recommended Storage Files
 

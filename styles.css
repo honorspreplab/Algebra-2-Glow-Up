@@ -143,3 +143,17 @@ body.signed-in #authGate{display:none!important}
   color:var(--muted);
   font-weight:700;
 }
+
+.saved-result-row{
+  grid-template-columns:1fr 1fr 1fr auto;
+  align-items:center;
+}
+.saved-result-row .soft{
+  padding:9px 13px;
+  white-space:nowrap;
+}
+@media(max-width:800px){
+  .saved-result-row{grid-template-columns:1fr auto}
+  .saved-result-row span{display:none}
+  .saved-result-row .soft{grid-column:2;grid-row:1}
+}
