@@ -176,6 +176,36 @@ function testQuestionLoadingTextDoesNotNameProvider() {
   assert.ok(appCode.includes("Creating your test"), "The neutral test-loading message is missing.");
 }
 
+function testEquivalentLogFormattingIsAccepted() {
+  const powerQuestion = { topic: "Logarithms", answer: "2log_b(5)" };
+  assert.ok(isCorrect(powerQuestion, "2log_b5"), "Optional parentheses in a log expression should not change the answer.");
+  assert.ok(isCorrect(powerQuestion, "2 * log base b of 5"), "Readable log-base wording should match compact notation.");
+
+  const productQuestion = { topic: "Logarithms", answer: "log_b(10)" };
+  assert.ok(isCorrect(productQuestion, "log_b10"), "A log argument should work with or without parentheses.");
+  assert.ok(!isCorrect(productQuestion, "10"), "Dropping the logarithm entirely must not count as equivalent.");
+}
+
+function testCompleteExamReviewIsStored() {
+  const question = {
+    id: "saved-1",
+    topic: "Logarithms",
+    difficulty: "Easy",
+    type: "text",
+    prompt: "What is log base 2 of 8?",
+    answer: ["3"],
+    lesson: "A logarithm asks for an exponent.",
+    explanation: "2^3=8."
+  };
+  const review = buildExamReview([question], { "saved-1": "3" }, { "saved-1": true }, {});
+  assert.strictEqual(review.length, 1, "A completed question should be included in the saved review.");
+  assert.strictEqual(review[0].prompt, question.prompt, "The saved review should keep the question prompt.");
+  assert.strictEqual(review[0].userAnswer, "3", "The saved review should keep the student's answer.");
+  assert.strictEqual(review[0].correct, true, "The saved review should keep whether the answer was correct.");
+  assert.strictEqual(review[0].hinted, true, "The saved review should keep hint usage.");
+  assert.strictEqual(review[0].explanation, "2^3=8.", "The saved review should keep the explanation.");
+}
+
 const tests = [
   testTopicList,
   testEachTopicGeneratesCorrectTopicOnly,
@@ -187,7 +217,9 @@ const tests = [
   testExponentsAndLogsStaySeparate,
   testLogQuestionsMatchFormulaSheet,
   testAdaptiveMixHasNoRepeats,
-  testQuestionLoadingTextDoesNotNameProvider
+  testQuestionLoadingTextDoesNotNameProvider,
+  testEquivalentLogFormattingIsAccepted,
+  testCompleteExamReviewIsStored
 ];
 
 for (const test of tests) {
