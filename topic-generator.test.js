@@ -98,6 +98,41 @@ function testDifficultyLabelsStayCorrect() {
   }
 }
 
+function testDifficultyNumbersStayFriendly() {
+  resetGeneratorMemory();
+  for (const topic of EXPECTED_TOPICS) {
+    for (const difficulty of ["Warm-up", "Easy", "Medium", "Honors"]) {
+      const questions = chooseTopicQuestions(topic, 8, difficulty);
+      questions.forEach(question => {
+        assert.ok(
+          questionHasFriendlyNumbers(question),
+          `${topic} ${difficulty} has numbers that are too large: ${question.prompt}`
+        );
+      });
+    }
+  }
+}
+
+function testRadicalWarmupsStayTiny() {
+  resetGeneratorMemory();
+  const questions = chooseTopicQuestions("Radicals", 20, "Warm-up");
+  questions.forEach(question => {
+    const numbers = question.prompt.match(/\d+/g)?.map(Number) || [];
+    assert.ok(numbers.every(number => number <= 50), `Radical warm-up is too large: ${question.prompt}`);
+    assert.ok(!question.prompt.includes("+"), `Radical warm-up should stay one-step: ${question.prompt}`);
+  });
+}
+
+function testDifficultyLevelsChangeQuestionStyle() {
+  resetGeneratorMemory();
+  const warmup = chooseTopicQuestions("Radicals", 3, "Warm-up");
+  const medium = chooseTopicQuestions("Radicals", 3, "Medium");
+  const honors = chooseTopicQuestions("Radicals", 3, "Honors");
+  assert.ok(warmup.every(q => /Simplify sqrt\(\d+\)/.test(q.prompt)), "Radical warm-up should be simple radical simplification.");
+  assert.ok(medium.some(q => q.prompt.includes("+")), "Radical medium should include combining like radicals.");
+  assert.ok(honors.some(q => /Solve sqrt\(x\+/.test(q.prompt)), "Radical honors should include radical equations.");
+}
+
 function testExponentsAndLogsStaySeparate() {
   resetGeneratorMemory();
   const exponentQuestions = chooseTopicQuestions("Exponential Functions", 25, "Warm-up");
@@ -111,6 +146,23 @@ function testExponentsAndLogsStaySeparate() {
   );
 }
 
+function testLogQuestionsMatchFormulaSheet() {
+  resetGeneratorMemory();
+  const easy = chooseTopicQuestions("Logarithms", 30, "Easy", { remember: false });
+  const medium = chooseTopicQuestions("Logarithms", 32, "Medium", { remember: false });
+  const honors = chooseTopicQuestions("Logarithms", 32, "Honors", { remember: false });
+  const easyText = easy.map(q => `${q.prompt} ${q.lesson}`).join(" ").toLowerCase();
+  const mediumText = medium.map(q => `${q.prompt} ${q.lesson}`).join(" ").toLowerCase();
+  const honorsText = honors.map(q => `${q.prompt} ${q.lesson}`).join(" ").toLowerCase();
+
+  for (const rule of ["product rule", "quotient rule", "power rule"]) {
+    assert.ok(easyText.includes(rule), `Easy logarithms should practice the ${rule}.`);
+    assert.ok(mediumText.includes(rule), `Medium logarithms should practice the ${rule}.`);
+  }
+  assert.ok(honorsText.includes("strictly positive"), "Honors logarithms should practice positive-domain restrictions.");
+  assert.ok(honorsText.includes("product rule"), "Honors logarithms should combine logarithm properties.");
+}
+
 function testAdaptiveMixHasNoRepeats() {
   resetGeneratorMemory();
   const questions = chooseQuestions();
@@ -118,13 +170,24 @@ function testAdaptiveMixHasNoRepeats() {
   assertUniquePrompts(questions, "Adaptive mix");
 }
 
+function testQuestionLoadingTextDoesNotNameProvider() {
+  assert.ok(!appCode.includes("Generating OpenAI questions"), "Student loading text should not name the provider.");
+  assert.ok(!appCode.includes("OpenAI questions ready"), "Student success text should not name the provider.");
+  assert.ok(appCode.includes("Creating your test"), "The neutral test-loading message is missing.");
+}
+
 const tests = [
   testTopicList,
   testEachTopicGeneratesCorrectTopicOnly,
   testBackToBackTopicTestsDoNotRepeat,
   testDifficultyLabelsStayCorrect,
+  testDifficultyNumbersStayFriendly,
+  testRadicalWarmupsStayTiny,
+  testDifficultyLevelsChangeQuestionStyle,
   testExponentsAndLogsStaySeparate,
-  testAdaptiveMixHasNoRepeats
+  testLogQuestionsMatchFormulaSheet,
+  testAdaptiveMixHasNoRepeats,
+  testQuestionLoadingTextDoesNotNameProvider
 ];
 
 for (const test of tests) {

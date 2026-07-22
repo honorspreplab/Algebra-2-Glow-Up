@@ -243,6 +243,8 @@ Beginner-facing logarithm questions should show the formal log notation first, t
 
 Logarithm practice must directly match the logarithm formula sheet instead of focusing only on basic evaluation and exponential-form conversion. Sets of six or more logarithm questions should cover the product rule, quotient rule, power rule, and the requirement that each logarithm input be positive. Difficulty should build naturally: Warm-up covers meaning and tiny evaluations; Easy applies one property at a time; Medium expands and condenses logarithms; Honors combines properties, solves logarithmic equations, and checks domain restrictions. Lessons and answer explanations must name the property used and show the substitution step clearly.
 
+Starting a test must feel nearly instant and must not wait for an online model response. The app should immediately create a complete test with its built-in non-repeating generator and open the first question. Online-generated questions may quietly replace only later, unanswered questions after they arrive; the current question and every answered question must never change. The student-facing text should say **Creating your test…** and **Your test is ready.** without naming the AI provider or model. Provider and model details may remain visible only inside administrator health-check tools.
+
 Example question types:
 - Solve \(3 \cdot 2^x = 48\)
 - Convert \(\log_2 32 = 5\) to exponential form
