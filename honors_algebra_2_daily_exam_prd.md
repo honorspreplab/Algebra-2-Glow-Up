@@ -671,7 +671,11 @@ The student can:
 
 The coach should remember the conversation separately for each exam question. Quick-reply buttons should make common requests easy on a phone. Opening the coach or requesting a hint marks the question as **Hinted**; requesting the exact solution or full walkthrough marks it as **Assisted**.
 
-The interface must accurately label this as an offline Study Coach, not a general-purpose internet AI. When it cannot interpret a free-form request, it should say what kinds of follow-ups it can answer and offer useful quick prompts. It must never pretend to understand a question it cannot handle.
+The Study Coach is **math-only**, not a general-purpose chatbot. It may help with the current Algebra 2 question or another genuine math question, but it must not answer trivia, geography, history, entertainment, personal advice, or casual non-math conversation. When a student asks a non-math question, the coach must not answer it first. It should only say:
+
+> I can only help with math here. Ask me about this question, an Algebra 2 idea, or another math problem.
+
+This restriction must be enforced in both the browser and the Firebase Function. The backend must apply a fixed math-only instruction that student messages cannot override. When it cannot interpret a free-form math request, it should say what kinds of math follow-ups it can answer and offer useful quick prompts. It must never pretend to understand a question it cannot handle.
 
 Each question should have a button:
 

@@ -408,8 +408,22 @@ const COACH_FORMULAS={
   "Systems":"Set equal expressions equal, solve one variable, then substitute back.",
   "Trigonometry":"Degrees to radians: multiply by π/180."
 };
+const MATH_ONLY_COACH_REPLY="I can only help with math here. Ask me about this question, an Algebra 2 idea, or another math problem.";
+function isMathCoachMessage(text,q){
+  let t=String(text||"").toLowerCase().trim();
+  if(!t)return false;
+  let mathWords=/\b(math|algebra|equation|expression|function|graph|solve|solution|factor|formula|variable|constant|coefficient|term|exponent|exponential|power|log|logarithm|radical|root|square|quadratic|polynomial|rational|fraction|decimal|integer|number|sequence|system|matrix|domain|range|slope|intercept|parabola|vertex|asymptote|complex|imaginary|trig|trigonometry|sine|cosine|tangent|angle|degree|radian|geometry|calculus|probability|statistics|mean|median|ratio|percent|simplify|evaluate|calculate|proof|theorem|x|y)\b/;
+  let followUpWords=/\b(explain|why|how|hint|help|confused|understand|step|start|next|answer|example|simpler|again|check|correct|wrong|method|rule|walk me through|doesn'?t make sense|what does that mean)\b/;
+  let offTopicWords=/\b(capital|country|city|president|history|war|movie|song|celebrity|weather|sports|recipe|food|joke|dating|relationship|politics|geography|travel|game)\b/;
+  if(offTopicWords.test(t)&&!mathWords.test(t))return false;
+  if(/[0-9=+\-*/^√π∞<>≤≥%()[\]{}]/.test(t))return true;
+  if(mathWords.test(t)||followUpWords.test(t))return true;
+  let topicWords=String(q?.topic||"").toLowerCase().split(/[^a-z0-9]+/).filter(word=>word.length>3);
+  return topicWords.some(word=>t.includes(word));
+}
 function coachReply(q,text){
   let t=text.toLowerCase();
+  if(!isMathCoachMessage(text,q))return MATH_ONLY_COACH_REPLY;
   if(/answer|walk.?through|solve it|full solution/.test(t)){exam.assisted??={};exam.assisted[q.id]=true;return`Let’s walk through this exact question:\n\n${q.explanation}\n\nNow try explaining that last step in your own words—that’s the part that makes it stick.`}
   if(/another|example|different number/.test(t))return`${COACH_EXAMPLES[q.topic]||q.lesson}\n\nTry copying those same steps on the current question.`;
   if(/formula|rule|equation/.test(t))return`${COACH_FORMULAS[q.topic]||q.lesson}\n\nThe important part is choosing the formula first, then substituting carefully.`;
@@ -420,31 +434,28 @@ function coachReply(q,text){
   return`I’m an offline coach, so I’m best at questions about this ${q.topic} problem. Here’s the key idea: ${q.lesson}\n\nTry asking “explain it simpler,” “show another example,” “what’s the first step?”, or “walk me through it.”`;
 }
 function wantsFullCoachSolution(text){return /answer|walk.?through|solve it|full solution/.test(text.toLowerCase())}
-function buildCoachPrompt(q,userText,messages){
-  let recent=(messages||[]).slice(-8).map(m=>`${m.role==="bot"?"Tutor":"Student"}: ${m.text}`).join("\n");
-  return `You are Honors Algebra 2 Prep's friendly math tutor for a student.
-Explain clearly, step by step, in a kind beginner-friendly voice.
-Do not shame the student. Keep the answer focused on Algebra 2.
-If the student asks for the answer, you may walk through it, but emphasize understanding.
-Use plain text, not LaTeX-heavy formatting.
-
-Current problem:
-Topic: ${q.topic}
-Difficulty: ${q.difficulty}
-Question: ${q.prompt}
-Correct answer: ${Array.isArray(q.answer)?q.answer[0]:q.answer}
-Built-in lesson: ${q.lesson}
-Built-in explanation: ${q.explanation}
-
-Recent chat:
-${recent || "No prior chat yet."}
-
-Student asks: ${userText}`;
+function buildCoachRequest(q,userText,messages){
+  return{
+    studentMessage:userText,
+    question:{
+      topic:q.topic,
+      difficulty:q.difficulty,
+      prompt:q.prompt,
+      answer:Array.isArray(q.answer)?q.answer[0]:q.answer,
+      lesson:q.lesson,
+      explanation:q.explanation
+    },
+    recentMessages:(messages||[]).slice(-8).map(message=>({
+      role:message.role==="bot"?"tutor":"student",
+      text:String(message.text||"").slice(0,1200)
+    }))
+  };
 }
 async function realCoachReply(q,text,messages){
+  if(!isMathCoachMessage(text,q))return MATH_ONLY_COACH_REPLY;
   if(!functionsApi||!authUser)return coachReply(q,text);
   try{
-    let res=await callFn("generateWithOpenAI",{prompt:buildCoachPrompt(q,text,messages)});
+    let res=await callFn("generateWithOpenAI",buildCoachRequest(q,text,messages));
     return (res?.outputText||"").trim()||coachReply(q,text);
   }catch(error){
     console.warn("AI coach fallback:",error);
