@@ -15,6 +15,8 @@ service cloud.firestore {
         && request.auth.token.email in [
           "radhikatchandra@outlook.com",
           "radhika.t.chandra13@gmail.com",
+          // Previous Google identifier for the same renamed administrator account.
+          "radhikachandra809@gmail.com",
           "ranveer.chandra@gmail.com"
         ];
     }

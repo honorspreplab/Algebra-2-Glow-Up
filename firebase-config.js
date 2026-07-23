@@ -21,3 +21,8 @@ window.APP_ADMIN_EMAILS = [
   "radhika.t.chandra13@gmail.com",
   "ranveer.chandra@gmail.com"
 ];
+
+// Google may temporarily return the previous email for a renamed account.
+window.APP_ADMIN_EMAIL_ALIASES = {
+  "radhikachandra809@gmail.com": "radhika.t.chandra13@gmail.com"
+};

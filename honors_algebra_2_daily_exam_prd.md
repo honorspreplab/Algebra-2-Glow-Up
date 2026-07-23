@@ -1196,6 +1196,8 @@ The following emails must always be treated as premium:
 
 These same emails should also be administrator accounts.
 
+If Google Authentication temporarily returns the previous identifier `radhikachandra809@gmail.com` for the same renamed Google account, the app and backend must canonicalize it to `radhika.t.chandra13@gmail.com`. The interface should display the new address, while Firestore rules may accept the previous identifier only for this account migration.
+
 #### OpenAI Model Routing
 
 All OpenAI API calls must happen server-side. The browser must never contain an OpenAI API key.

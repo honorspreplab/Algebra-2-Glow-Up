@@ -15,17 +15,26 @@ const ADMIN_EMAILS = new Set([
   "ranveer.chandra@gmail.com"
 ]);
 
+const ADMIN_EMAIL_ALIASES = new Map([
+  ["radhikachandra809@gmail.com", "radhika.t.chandra13@gmail.com"]
+]);
+
 function requireAuth(request) {
   if (!request.auth) throw new HttpsError("unauthenticated", "Please sign in first.");
   return request.auth;
 }
 
 function normalizedEmail(auth) {
-  return String(auth.token.email || "").toLowerCase();
+  return canonicalEmail(auth.token.email);
+}
+
+function canonicalEmail(email) {
+  const normalized = String(email || "").toLowerCase();
+  return ADMIN_EMAIL_ALIASES.get(normalized) || normalized;
 }
 
 function isConfiguredAdmin(email) {
-  return ADMIN_EMAILS.has(String(email || "").toLowerCase());
+  return ADMIN_EMAILS.has(canonicalEmail(email));
 }
 
 function todayKey(date = new Date()) {
