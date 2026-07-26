@@ -157,3 +157,98 @@ body.signed-in #authGate{display:none!important}
   .saved-result-row span{display:none}
   .saved-result-row .soft{grid-column:2;grid-row:1}
 }
+
+.feedback-settings{
+  margin:2px 0 0;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:color-mix(in srgb,var(--surface2) 72%,transparent);
+  display:grid;
+  gap:4px;
+  transition:opacity .2s ease,border-color .2s ease;
+}
+.feedback-settings legend{
+  padding:0 7px;
+  color:var(--accent);
+  font:800 13px Manrope;
+}
+.feedback-settings>p{
+  margin:0 0 5px;
+  color:var(--muted);
+  font-size:11px;
+}
+.setup-card .feedback-toggle{
+  display:flex;
+  grid-template-columns:none;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:10px 2px;
+  border-top:1px solid color-mix(in srgb,var(--line) 72%,transparent);
+}
+.feedback-toggle span{
+  min-width:0;
+  display:grid;
+  gap:2px;
+}
+.feedback-toggle strong{
+  color:var(--ink);
+  font-size:13px;
+}
+.feedback-toggle small{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+}
+.setup-card .feedback-toggle input{
+  appearance:none;
+  -webkit-appearance:none;
+  flex:0 0 42px;
+  width:42px;
+  min-height:24px;
+  height:24px;
+  padding:0;
+  margin:0;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--bg);
+  position:relative;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.setup-card .feedback-toggle input::before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:2px;
+  top:2px;
+  border-radius:50%;
+  background:var(--muted);
+  box-shadow:0 2px 6px rgba(0,0,0,.18);
+  transition:.2s ease;
+}
+.setup-card .feedback-toggle input:checked{
+  border-color:transparent;
+  background:var(--accent-fill);
+}
+.setup-card .feedback-toggle input:checked::before{
+  left:20px;
+  background:#fff;
+}
+.setup-card .feedback-toggle input:focus-visible{
+  outline:3px solid color-mix(in srgb,var(--accent) 36%,transparent);
+  outline-offset:2px;
+}
+.setup-card .feedback-toggle input:disabled{
+  cursor:not-allowed;
+  opacity:.42;
+}
+.feedback-settings.quiet-active{
+  border-color:color-mix(in srgb,var(--accent) 35%,var(--line));
+}
+.feedback-settings.quiet-active .feedback-toggle:not(.quiet-toggle) span{
+  opacity:.55;
+}

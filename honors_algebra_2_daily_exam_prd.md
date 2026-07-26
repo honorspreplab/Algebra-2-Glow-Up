@@ -542,6 +542,20 @@ Each theme should change:
 
 The theme should not change the math content or grading.
 
+### Sound and Haptic Feedback
+
+The app should use subtle, generated sound effects and gentle haptic feedback to make studying feel polished without becoming distracting.
+
+- A correct answer gets a light two-note success sound and one short haptic tap.
+- An incorrect answer gets a quiet, soft retry sound and a mild double tap. It must never use a harsh buzzer or shaming sound.
+- Completing a test gets a short celebratory three-note sound and haptic pattern.
+- Important navigation actions may use a tiny tap, but the app must not make noise for every interaction or each timer second.
+- Multiple-choice selection may use a tiny haptic tap without an extra sound.
+
+The home screen must include separate **Sound effects** and **Haptics** switches plus a **Quiet mode** switch that pauses both. These preferences are stored locally on the device and restored when the app opens. Quiet mode should preserve the individual sound and haptic choices so they return when Quiet mode is turned off.
+
+Sound and haptics must fail gracefully. If a device or browser does not support vibration or generated audio, studying, grading, saving, and navigation must continue normally.
+
 ---
 
 ## 10. Student Name Personalization
