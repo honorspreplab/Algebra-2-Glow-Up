@@ -546,11 +546,11 @@ The theme should not change the math content or grading.
 
 The app should use subtle, generated sound effects and gentle haptic feedback to make studying feel polished without becoming distracting.
 
-The sound design should feel like a real polished study app rather than a set of plain browser beeps. Use short layered tones, gentle pitch movement, light harmonics, stereo spacing where available, and a tiny echo to create bubbly and sparkly character without becoming loud.
+The sound design should feel like a real polished study app rather than a set of plain browser beeps. Use warm mid-range notes, soft marimba/bubble character, gentle pitch movement, very light harmonics, stereo spacing where available, and minimal echo. Avoid squeaky high notes, sharp shimmer layers, piercing frequencies, and cartoonishly bright effects.
 
-- A correct answer gets a bright, sparkly success arpeggio and one short haptic tap.
+- A correct answer gets a warm, cheerful success arpeggio and one short haptic tap.
 - An incorrect answer gets a quiet, soft retry sound and a mild double tap. It must never use a harsh buzzer or shaming sound.
-- Completing a test gets a short four-note celebratory melody with a shimmer ending and haptic pattern.
+- Completing a test gets a short four-note celebratory melody with a soft rounded ending and haptic pattern.
 - Important navigation actions may use a tiny tap, but the app must not make noise for every interaction or each timer second.
 - Multiple-choice selection may use a tiny haptic tap without an extra sound.
 
