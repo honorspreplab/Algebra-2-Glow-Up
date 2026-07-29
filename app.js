@@ -431,10 +431,11 @@ function isMathCoachMessage(text,q){
   if(!t)return false;
   let mathWords=/\b(math|algebra|equation|expression|function|graph|solve|solution|factor|formula|variable|constant|coefficient|term|exponent|exponential|power|log|logarithm|radical|root|square|quadratic|polynomial|rational|fraction|decimal|integer|number|sequence|system|matrix|domain|range|slope|intercept|parabola|vertex|asymptote|complex|imaginary|trig|trigonometry|sine|cosine|tangent|angle|degree|radian|geometry|calculus|probability|statistics|mean|median|ratio|percent|simplify|evaluate|calculate|proof|theorem|x|y)\b/;
   let followUpWords=/\b(explain|why|how|hint|help|confused|understand|step|start|next|answer|example|simpler|again|check|correct|wrong|method|rule|walk me through|doesn'?t make sense|what does that mean)\b/;
+  let conversationWords=/\b(that'?s what i meant|meant to say|i meant|i was trying to say|ohh?|okay|ok|got it|makes sense|thank you|thanks|exactly|right|wait|oops|my bad|yeah|yep|yes|nope|no)\b/;
   let offTopicWords=/\b(capital|country|city|president|history|war|movie|song|celebrity|weather|sports|recipe|food|joke|dating|relationship|politics|geography|travel|game)\b/;
   if(offTopicWords.test(t)&&!mathWords.test(t))return false;
   if(/[0-9=+\-*/^√π∞<>≤≥%()[\]{}]/.test(t))return true;
-  if(mathWords.test(t)||followUpWords.test(t))return true;
+  if(mathWords.test(t)||followUpWords.test(t)||conversationWords.test(t))return true;
   let topicWords=String(q?.topic||"").toLowerCase().split(/[^a-z0-9]+/).filter(word=>word.length>3);
   return topicWords.some(word=>t.includes(word));
 }
@@ -448,6 +449,7 @@ function coachReply(q,text){
   if(/why|how come/.test(t))return`The reason is that each algebra step must keep both sides equivalent. For this problem: ${q.explanation}`;
   if(/simpl|confus|understand|what does|huh/.test(t))return`Super simple version: ${COACH_FORMULAS[q.topic]||q.lesson}\n\nThink of it as one small job at a time. ${COACH_EXAMPLES[q.topic]||""}`;
   if(/check|my answer|correct/.test(t))return`I can help you check the method without judging the final answer yet. Tell me what your first step was, then compare it with this hint: ${q.lesson}`;
+  if(/that'?s what i meant|meant to say|i meant|exactly|got it|makes sense|my bad|oops/.test(t))return`Got you—we’re on the same page. Let’s keep going with this ${q.topic} problem. ${q.lesson}`;
   return`I’m an offline coach, so I’m best at questions about this ${q.topic} problem. Here’s the key idea: ${q.lesson}\n\nTry asking “explain it simpler,” “show another example,” “what’s the first step?”, or “walk me through it.”`;
 }
 function wantsFullCoachSolution(text){return /answer|walk.?through|solve it|full solution/.test(text.toLowerCase())}

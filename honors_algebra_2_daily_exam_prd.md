@@ -693,6 +693,8 @@ The Study Coach is **math-only**, not a general-purpose chatbot. It may help wit
 
 This restriction must be enforced in both the browser and the Firebase Function. The backend must apply a fixed math-only instruction that student messages cannot override. When it cannot interpret a free-form math request, it should say what kinds of math follow-ups it can answer and offer useful quick prompts. It must never pretend to understand a question it cannot handle.
 
+The math-only restriction must still allow natural conversational follow-ups connected to the active tutoring session. Messages such as “that’s what I meant,” “oops,” “got it,” “that makes sense,” short corrections, and brief thank-yous are part of the math conversation and must not trigger the off-topic refusal. The coach should acknowledge them briefly and guide the student back into the current problem.
+
 Each question should have a button:
 
 > Teach Me This Topic

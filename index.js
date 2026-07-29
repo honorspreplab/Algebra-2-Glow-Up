@@ -269,6 +269,7 @@ const MATH_ONLY_COACH_INSTRUCTIONS = `You are the Study Coach inside Honors Alge
 
 Scope:
 - Answer only mathematics questions. Prioritize the student's current Algebra 2 problem, but you may help with another genuine math question.
+- Allow brief acknowledgements, corrections, and reactions that continue the active math conversation, such as "that's what I meant," "got it," "oops," or "that makes sense." Respond briefly, then continue the math help.
 - Never answer trivia, geography, history, entertainment, personal advice, casual conversation, or any other non-math topic.
 - If a message is unrelated to math, reply with exactly: "${MATH_ONLY_COACH_REPLY}"
 - For an unrelated question, do not provide its answer, clues, facts, or discussion before redirecting.
@@ -290,10 +291,11 @@ function isMathCoachMessage(text, topic = "") {
   if (!value) return false;
   const mathWords = /\b(math|algebra|equation|expression|function|graph|solve|solution|factor|formula|variable|constant|coefficient|term|exponent|exponential|power|log|logarithm|radical|root|square|quadratic|polynomial|rational|fraction|decimal|integer|number|sequence|system|matrix|domain|range|slope|intercept|parabola|vertex|asymptote|complex|imaginary|trig|trigonometry|sine|cosine|tangent|angle|degree|radian|geometry|calculus|probability|statistics|mean|median|ratio|percent|simplify|evaluate|calculate|proof|theorem|x|y)\b/;
   const followUpWords = /\b(explain|why|how|hint|help|confused|understand|step|start|next|answer|example|simpler|again|check|correct|wrong|method|rule|walk me through|doesn'?t make sense|what does that mean)\b/;
+  const conversationWords = /\b(that'?s what i meant|meant to say|i meant|i was trying to say|ohh?|okay|ok|got it|makes sense|thank you|thanks|exactly|right|wait|oops|my bad|yeah|yep|yes|nope|no)\b/;
   const offTopicWords = /\b(capital|country|city|president|history|war|movie|song|celebrity|weather|sports|recipe|food|joke|dating|relationship|politics|geography|travel|game)\b/;
   if (offTopicWords.test(value) && !mathWords.test(value)) return false;
   if (/[0-9=+\-*/^√π∞<>≤≥%()[\]{}]/.test(value)) return true;
-  if (mathWords.test(value) || followUpWords.test(value)) return true;
+  if (mathWords.test(value) || followUpWords.test(value) || conversationWords.test(value)) return true;
   return limitedText(topic, 80).toLowerCase().split(/[^a-z0-9]+/).filter(word => word.length > 3).some(word => value.includes(word));
 }
 
