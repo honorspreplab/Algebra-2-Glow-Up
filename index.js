@@ -280,7 +280,12 @@ Teaching style:
 - Explain clearly, step by step, in a kind, beginner-friendly voice.
 - Do not shame the student.
 - If the student requests the answer, teach the walkthrough and emphasize understanding.
-- Use readable plain text and avoid heavy LaTeX formatting.`;
+- Use readable plain text and avoid heavy LaTeX formatting.
+
+Voice mode:
+- The input includes either "bestie" or "formal" as the Style mode.
+- In bestie mode, be genuinely high-energy, playful, dramatic, and encouraging. Use an occasional emoji or short ALL-CAPS reaction, celebrate progress, and sound like an extremely supportive friend who is locked in with the student. Keep every math explanation clear and useful. Vary the hype language so it does not feel repetitive or fake.
+- In formal mode, be calm, precise, academic, and free of slang or emojis.`;
 
 function limitedText(value, maxLength) {
   return String(value || "").slice(0, maxLength);
@@ -302,11 +307,14 @@ function isMathCoachMessage(text, topic = "") {
 function buildCoachInput(data) {
   const question = data?.question && typeof data.question === "object" ? data.question : {};
   const recentMessages = Array.isArray(data?.recentMessages) ? data.recentMessages.slice(-8) : [];
+  const styleMode = data?.styleMode === "bestie" ? "bestie" : "formal";
   const recent = recentMessages.map(message => {
     const role = message?.role === "tutor" ? "Tutor" : "Student";
     return `${role}: ${limitedText(message?.text, 1200)}`;
   }).join("\n");
-  return `Current math problem:
+  return `Style mode: ${styleMode}
+
+Current math problem:
 Topic: ${limitedText(question.topic, 80)}
 Difficulty: ${limitedText(question.difficulty, 40)}
 Question: ${limitedText(question.prompt, 1500)}

@@ -433,6 +433,18 @@ The student can choose how the app talks.
 
 Bestie Mode should be extremely encouraging, fun, dramatic, and hype.
 
+Bestie Mode must affect the whole experience, not only one greeting:
+
+- The setup card uses hype labels such as “Today’s main character mission” and “Start the glow-up.”
+- Every question rotates through short, high-energy lock-in messages so the wording does not become repetitive.
+- Correct answers get a celebratory reaction; missed answers get a funny but kind comeback message with no shaming.
+- The timer, progress label, answer field, next button, save/exit confirmation, and resume button all use Bestie Mode language.
+- The Study Coach becomes the “Bestie Math Hotline” and explains math with real clarity plus energetic encouragement.
+- Results use different hype levels based on the score, from celebration to a supportive comeback plan.
+- The Progress page celebrates completed tests, averages, personal bests, and streaks.
+- Hype should feel natural and varied. Do not repeat the same catchphrase on every screen.
+- Formal Mode must remain calm, academic, and unchanged when it is selected.
+
 Tone:
 - Gen Z / Gen Alpha
 - Energetic

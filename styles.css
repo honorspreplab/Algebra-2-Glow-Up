@@ -73,6 +73,14 @@ select optgroup{font-weight:800}
 .coach-form{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 16px 16px;border-top:1px solid var(--line)}
 .coach-form input{min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:11px;font-size:16px}.coach-form button{border:0;border-radius:10px;background:var(--accent-fill);color:#fff;padding:0 16px;font-weight:800}
 .coach-note{margin:0;padding:0 16px 12px;color:var(--muted);font-size:10px}
+body[data-voice="bestie"] #startExamButton,
+body[data-voice="bestie"] #nextButton{letter-spacing:.035em;text-shadow:0 1px 10px rgba(255,255,255,.22)}
+body[data-voice="bestie"] #startExamButton{box-shadow:0 0 0 1px rgba(255,255,255,.18),0 12px 32px color-mix(in srgb,var(--accent) 38%,transparent);animation:bestieGlow 2.4s ease-in-out infinite}
+body[data-voice="bestie"] .question-card{box-shadow:0 22px 65px color-mix(in srgb,var(--accent) 14%,transparent)}
+body[data-voice="bestie"] #examStudent{background:var(--accent-fill);background-clip:text;-webkit-background-clip:text;color:transparent;line-height:1.14}
+body[data-voice="bestie"] .coach-head h3{background:var(--accent-fill);background-clip:text;-webkit-background-clip:text;color:transparent}
+@keyframes bestieGlow{0%,100%{transform:translateY(0);filter:saturate(1)}50%{transform:translateY(-2px);filter:saturate(1.18)}}
+@media (prefers-reduced-motion:reduce){body[data-voice="bestie"] #startExamButton{animation:none}}
 #appVersion{font-size:11px;color:var(--muted);margin-left:6px;letter-spacing:0;font-weight:800}
 .auth-gate{position:fixed;z-index:1000;inset:0;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top left,rgba(140,92,255,.38),transparent 35%),rgba(25,16,42,.92);backdrop-filter:blur(18px)}.auth-card{width:min(440px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:grid;gap:14px}.account-box{display:grid;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:14px}.account-box span{color:var(--muted);font-size:12px;word-break:break-all}
 body.signed-in #authGate{display:none!important}
