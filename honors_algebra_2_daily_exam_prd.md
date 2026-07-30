@@ -262,12 +262,14 @@ Example question types:
 - Geometric sequences
 - Recursive formulas
 - Explicit formulas
+- Finite arithmetic series
 - Finite geometric series
 - Applications
 
 Example question types:
 - Find the 12th term of a geometric sequence
 - Write recursive and explicit forms
+- Find a finite arithmetic sum
 - Find a finite geometric sum
 - Compare arithmetic vs geometric growth
 
@@ -663,6 +665,8 @@ The formula sheet should open in a side panel or modal.
 #### Sequences
 
 - Arithmetic: \(a_n = a_1 + (n-1)d\)
+- Finite arithmetic sum: \(S_n = \frac{n}{2}(a_1+a_n)\)
+- Equivalent arithmetic sum using the common difference: \(S_n = \frac{n}{2}[2a_1+(n-1)d]\)
 - Geometric: \(a_n = a_1r^{n-1}\)
 - Finite geometric sum: \(S_n = a_1\frac{1-r^n}{1-r}\), \(r \neq 1\)
 

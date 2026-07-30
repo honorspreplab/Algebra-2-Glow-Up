@@ -460,7 +460,7 @@ const COACH_FORMULAS={
   "Exponential Functions":"Typical form: y=a(b)ˣ. If possible, rewrite both sides with the same base.",
   "Logarithms":"logₐ(b)=x means aˣ=b.",
   "Exponentials & Logs":"logₐ(b)=x means aˣ=b.",
-  "Sequences":"Arithmetic: aₙ=a₁+(n−1)d. Geometric: aₙ=a₁rⁿ⁻¹.",
+  "Sequences":"Arithmetic term: aₙ=a₁+(n−1)d. Arithmetic sum: Sₙ=n/2(a₁+aₙ)=n/2[2a₁+(n−1)d]. Geometric term: aₙ=a₁rⁿ⁻¹. Finite geometric sum: Sₙ=a₁(1−rⁿ)/(1−r).",
   "Systems":"Set equal expressions equal, solve one variable, then substitute back.",
   "Trigonometry":"Degrees to radians: multiply by π/180."
 };
