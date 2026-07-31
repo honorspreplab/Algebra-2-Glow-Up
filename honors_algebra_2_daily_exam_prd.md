@@ -1293,6 +1293,8 @@ Administrators should have an additional dashboard area visible only to admin ac
 
 Admin dashboard requirements:
 
+- Load users, premium requests, usage, and approval actions through protected Firebase callable functions. Do not fall back to broad direct Firestore collection queries in the browser.
+- When offline, show a friendly “Admin dashboard needs internet” message instead of exposing Firebase internal errors. Student tests and locally saved progress must remain available.
 - View all signed-in users.
 - See each user’s email, display name, provider, account type, premium status, first login, and last login.
 - See who requested Premium.
