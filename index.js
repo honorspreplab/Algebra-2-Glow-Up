@@ -140,14 +140,29 @@ exports.adminListDashboard = onCall(async (request) => {
   const email = normalizedEmail(auth);
   if (!isConfiguredAdmin(email)) throw new HttpsError("permission-denied", "Admin only.");
   const [usersSnap, requestsSnap, usageSnap] = await Promise.all([
-    db.collection("users").orderBy("lastLoginAt", "desc").limit(200).get(),
-    db.collection("premiumRequests").where("status", "==", "pending").orderBy("requestedAt", "desc").limit(100).get(),
-    db.collection("usage").orderBy("createdAt", "desc").limit(500).get()
+    db.collection("users").limit(200).get(),
+    db.collection("premiumRequests").limit(200).get(),
+    db.collection("usage").limit(500).get()
   ]);
+  const timestampMs = value => {
+    if (value && typeof value.toMillis === "function") return value.toMillis();
+    return Number(value?.seconds || 0) * 1000;
+  };
+  const users = usersSnap.docs
+    .map(doc => ({ id: doc.id, ...doc.data() }))
+    .sort((a, b) => timestampMs(b.lastLoginAt) - timestampMs(a.lastLoginAt));
+  const premiumRequests = requestsSnap.docs
+    .map(doc => ({ id: doc.id, ...doc.data() }))
+    .filter(item => item.status === "pending")
+    .sort((a, b) => timestampMs(b.requestedAt || b.createdAt) - timestampMs(a.requestedAt || a.createdAt))
+    .slice(0, 100);
+  const usage = usageSnap.docs
+    .map(doc => ({ id: doc.id, ...doc.data() }))
+    .sort((a, b) => timestampMs(b.createdAt) - timestampMs(a.createdAt));
   return {
-    users: usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })),
-    premiumRequests: requestsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })),
-    usage: usageSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    users,
+    premiumRequests,
+    usage
   };
 });
 
