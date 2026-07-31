@@ -1182,7 +1182,20 @@ Mobile requirements:
 - Progressive Web App metadata so the app can be added to a phone's home screen
 - Offline caching of the app shell after the first successful hosted visit
 
-The app must continue saving the student's profile and results in browser localStorage. Because localStorage is device-specific, phone results and computer results are not automatically synchronized in the MVP. Offline installation and caching require the app to be served over HTTPS (or localhost during development); they do not activate when the HTML file is opened directly from the filesystem.
+### Travel-Ready Offline Mode
+
+After one successful online visit and sign-in on a device, the hosted app must work without an internet connection on that same device. Offline Mode must:
+
+- Cache the full app shell, local question generator, formula sheet, themes, and required Firebase browser libraries with a versioned service worker.
+- Restore the last verified account and plan saved on that device without opening the Google sign-in screen again.
+- Allow new Adaptive Mix, selected-topic, and end-of-unit tests using the built-in local question generator.
+- Use the offline math Study Coach. Real OpenAI question upgrades and chatbot responses pause until reconnection.
+- Save profiles, test drafts, answers, and complete results immediately to `localStorage`.
+- Show a visible “Offline Mode • saved on this device” status in the header.
+- Reconnect automatically, refresh the verified plan, and upload locally saved results when internet returns.
+- Require the student to connect and sign in once before Offline Mode becomes available on a new browser or device.
+
+Offline installation and caching require the app to be served over HTTPS (or localhost during development); they do not activate when the HTML file is opened directly from the filesystem. Local data remains device-specific until the app reconnects and syncs it to the signed-in account.
 
 ### Server-Backed Authentication, Accounts, Premium, and Admin Access
 
@@ -1245,7 +1258,7 @@ If a requested model is unavailable, the backend should fail safely with an admi
 
 #### Basic Daily Limit
 
-Basic users may start only **one test per day**. This limit must be enforced by the backend using server timestamps, not by localStorage.
+Basic users may start only **one test per day**. Online, this limit must be enforced by the backend using server timestamps. In Offline Mode, the app must also enforce the limit using the last verified account snapshot and a device-local daily counter, then reconcile that counter with the backend when the connection returns. Offline access never exposes an OpenAI key or permits protected server calls.
 
 The backend should store:
 
