@@ -523,6 +523,11 @@ The app logo should feel like a polished real study app icon: friendly, soft, ge
 | Tropical Splash | Turquoise, ocean blue, and lime gradient |
 | Peach Sorbet | Peach, coral, and soft pink sunset gradient |
 | Golden Hour | Warm gold, apricot, and rose gradient |
+| Abyssal Ocean | Near-black navy, deep teal, cyan, and electric blue gradient |
+| Enchanted Forest | Deep pine, emerald, teal, and soft lime gradient |
+| Velvet Rose | Black cherry, plum, rose pink, and violet gradient |
+| Ember Eclipse | Charcoal, burgundy, ember orange, and warm gold gradient |
+| Electric Galaxy | Midnight navy, cobalt, indigo, and neon violet gradient |
 
 ### Gradient Theme Requirements
 
@@ -542,6 +547,8 @@ Gradient themes should apply coordinated gradients to every major visual layer:
 - Modal, lesson, feedback, and review surfaces
 
 No major interface surface should fall back to a flat solid color while a gradient theme is active. Gradients should vary by layer so that cards remain visually distinct from the page background. Text may also use a gradient treatment for large decorative headings, but questions, answers, labels, and body copy must maintain accessible contrast. The selected gradient theme must be saved locally and restored when the student returns.
+
+Dark gradient themes must preserve bright, readable text and visually separate the page, cards, fields, selected answers, and navigation layers. The browser and phone safe-area tint should also follow the selected theme.
 
 ### Theme Requirements
 

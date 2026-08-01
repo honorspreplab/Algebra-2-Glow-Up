@@ -7,6 +7,11 @@
 [data-theme=classic]{--bg:#f3f5f7;--surface2:#e7ebef;--accent:#40556b;--accent2:#7890a7;--ink:#202b34;--line:#d8dfe5}
 [data-theme=aurora]{--bg:#edf7ff;--page-bg:linear-gradient(135deg,#e9fbf5 0%,#e8efff 45%,#f3e9ff 100%);--surface:rgba(255,255,255,.88);--surface2:#e8edff;--accent:#5368d9;--accent2:#48bda3;--accent-fill:linear-gradient(120deg,#35aa9b,#6673e8 55%,#9d68dc);--ink:#202946;--line:#d8e0f2}
 [data-theme=cosmic]{--bg:#17132b;--page-bg:radial-gradient(circle at 15% 10%,#49307e 0%,transparent 34%),linear-gradient(135deg,#151128,#28133f 55%,#3c153f);--surface:rgba(30,24,49,.9);--surface2:#322449;--accent:#c17dff;--accent2:#ff6eb4;--accent-fill:linear-gradient(120deg,#7659f5,#be63e8 55%,#f05ba5);--ink:#faf6ff;--muted:#c0b4cf;--line:#4a3b61;color-scheme:dark}
+[data-theme=dark-ocean]{--bg:#051720;--page-bg:radial-gradient(circle at 12% 8%,#0b5363 0%,transparent 34%),radial-gradient(circle at 88% 82%,#173c70 0%,transparent 32%),linear-gradient(140deg,#04131c,#082536 54%,#062b33);--surface:rgba(7,27,39,.92);--surface2:#0d3443;--accent:#4edce3;--accent2:#5795ff;--accent-fill:linear-gradient(120deg,#13a9ba,#3e83f5 55%,#7967ff);--ink:#f1fcff;--muted:#a6c4ce;--line:#1b4a59;--shadow:0 22px 64px rgba(0,8,14,.34);color-scheme:dark}
+[data-theme=dark-forest]{--bg:#071610;--page-bg:radial-gradient(circle at 16% 12%,#195a3b 0%,transparent 34%),radial-gradient(circle at 86% 76%,#334b17 0%,transparent 32%),linear-gradient(145deg,#05110d,#0a2418 55%,#13271d);--surface:rgba(9,31,22,.92);--surface2:#143829;--accent:#6de5a2;--accent2:#c1e66c;--accent-fill:linear-gradient(120deg,#1ca66f,#34bb91 52%,#a1c94c);--ink:#f3fff8;--muted:#acc9b9;--line:#28513c;--shadow:0 22px 64px rgba(0,10,5,.34);color-scheme:dark}
+[data-theme=dark-rose]{--bg:#170b14;--page-bg:radial-gradient(circle at 14% 10%,#64224e 0%,transparent 34%),radial-gradient(circle at 86% 80%,#432361 0%,transparent 32%),linear-gradient(140deg,#120911,#271021 55%,#311129);--surface:rgba(35,16,31,.92);--surface2:#43213a;--accent:#ff83bd;--accent2:#bd85ff;--accent-fill:linear-gradient(120deg,#843eb5,#d94d92 54%,#ff7f83);--ink:#fff5fb;--muted:#d0b1c4;--line:#5a3150;--shadow:0 22px 64px rgba(14,2,11,.36);color-scheme:dark}
+[data-theme=dark-ember]{--bg:#170b09;--page-bg:radial-gradient(circle at 15% 10%,#742d18 0%,transparent 35%),radial-gradient(circle at 84% 80%,#65182d 0%,transparent 31%),linear-gradient(140deg,#130806,#2b1210 54%,#341410);--surface:rgba(39,18,15,.92);--surface2:#49251f;--accent:#ffa15f;--accent2:#ff6073;--accent-fill:linear-gradient(120deg,#d83f35,#ef7034 54%,#ffb44d);--ink:#fff8f3;--muted:#d4b6aa;--line:#60382e;--shadow:0 22px 64px rgba(16,4,1,.36);color-scheme:dark}
+[data-theme=dark-galaxy]{--bg:#080d22;--page-bg:radial-gradient(circle at 14% 10%,#29479b 0%,transparent 34%),radial-gradient(circle at 86% 78%,#692d83 0%,transparent 33%),linear-gradient(140deg,#070b1e,#11183b 52%,#23123d);--surface:rgba(13,20,49,.92);--surface2:#202b59;--accent:#91a7ff;--accent2:#cb7cff;--accent-fill:linear-gradient(120deg,#4358e3,#7766ff 52%,#d35fc8);--ink:#f6f7ff;--muted:#b7bcda;--line:#354474;--shadow:0 22px 64px rgba(2,4,18,.38);color-scheme:dark}
 [data-theme=tropical]{--bg:#effcf8;--page-bg:linear-gradient(140deg,#e5fff4,#e0f8ff 50%,#f5ffda);--surface:rgba(255,255,255,.9);--surface2:#dff8ef;--accent:#078d8c;--accent2:#76b82a;--accent-fill:linear-gradient(120deg,#00a9a3,#2d9dd7 55%,#8bbd2e);--ink:#173b3a;--line:#cceae4}
 [data-theme=peach]{--bg:#fff3ef;--page-bg:linear-gradient(135deg,#fff0e4,#ffe9ee 52%,#ffe4d8);--surface:rgba(255,255,255,.9);--surface2:#ffe4df;--accent:#d85669;--accent2:#f09a65;--accent-fill:linear-gradient(120deg,#ef9063,#e96b79 55%,#d85f9a);--ink:#482b35;--line:#efd6d7}
 [data-theme=golden]{--bg:#fff8e8;--page-bg:linear-gradient(140deg,#fff7d6,#ffe8cc 50%,#ffe2df);--surface:rgba(255,255,255,.9);--surface2:#ffedcf;--accent:#b76b25;--accent2:#df8874;--accent-fill:linear-gradient(120deg,#e6a82f,#e9874f 55%,#da6f7f);--ink:#48351f;--line:#ecdcc0}
@@ -14,7 +19,7 @@
 @media(max-width:800px){.topbar{padding:0 15px}.topbar nav .nav-link:first-child{display:none}main{padding:28px 15px 60px}.hero,.exam-layout,.results-grid,.dashboard-grid{grid-template-columns:1fr;gap:28px}.hero{min-height:auto}.hero h1{font-size:45px}.exam-sidebar{border-right:0;border-bottom:1px solid var(--line);padding:0 0 20px}.question-card{padding:25px}.stat-grid{grid-template-columns:1fr 1fr}.results-hero{padding:25px}.score-ring{width:110px;height:110px}.formula-grid{grid-template-columns:1fr}.page-heading{align-items:start}.page-heading h1{font-size:34px}.trust-row{gap:10px}.history-row{grid-template-columns:1fr 1fr}.history-row span:last-child{display:none}}
 
 /* Full-spectrum gradient themes: every visible surface participates. */
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]){
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]){
   --card-gradient:linear-gradient(145deg,color-mix(in srgb,var(--surface) 96%,var(--accent2)),color-mix(in srgb,var(--surface) 88%,var(--accent)));
   --soft-gradient:linear-gradient(125deg,color-mix(in srgb,var(--surface2) 88%,var(--accent2)),color-mix(in srgb,var(--surface2) 82%,var(--accent)));
   --field-gradient:linear-gradient(135deg,color-mix(in srgb,var(--bg) 94%,var(--accent2)),color-mix(in srgb,var(--surface) 92%,var(--accent)));
@@ -36,26 +41,30 @@
 .difficulty-control small{color:var(--muted)}
 .difficulty-control button:disabled{opacity:.45;cursor:not-allowed}
 .difficulty-loading{display:block;margin-top:4px}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .topbar{background:var(--glass-gradient);border-bottom-color:color-mix(in srgb,var(--accent) 28%,var(--line))}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.setup-card,.panel,.question-card,.stat-card,dialog){background:var(--card-gradient);border-color:color-mix(in srgb,var(--accent) 22%,var(--line))}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.today-box,.soft,.lesson,.question-meta span,.nav-link:hover,.nav-link.active,.step-dot,.results-hero,.icon-button){background:var(--soft-gradient)}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.setup-card input,.setup-card select,.answer-input,.choice,.question-grid button,.timer,.formula-grid section){background:var(--field-gradient);border-color:color-mix(in srgb,var(--accent) 25%,var(--line))}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .choice:has(input:checked){background:var(--soft-gradient);box-shadow:inset 0 0 0 1px var(--accent)}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.primary,.brand span,.progress-track i,.question-grid button.current,.mini-bar i,.chart-bar){background:var(--accent-fill)}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.progress-track,.mini-bar){background:linear-gradient(90deg,color-mix(in srgb,var(--surface2) 92%,var(--accent2)),color-mix(in srgb,var(--surface2) 88%,var(--accent)))}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .score-ring{background:conic-gradient(from 20deg,var(--accent),var(--accent2) var(--score),color-mix(in srgb,var(--surface) 75%,var(--accent2)) 0)}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .score-ring:after{background:var(--card-gradient)}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) :is(.hero h1 em,.page-heading h1){background:var(--accent-fill);background-clip:text;-webkit-background-clip:text;color:transparent}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .topbar{background:var(--glass-gradient);border-bottom-color:color-mix(in srgb,var(--accent) 28%,var(--line))}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.setup-card,.panel,.question-card,.stat-card,.auth-card,.coach,dialog){background:var(--card-gradient);border-color:color-mix(in srgb,var(--accent) 22%,var(--line))}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.today-box,.soft,.lesson,.question-meta span,.nav-link:hover,.nav-link.active,.step-dot,.results-hero,.icon-button,.test-summary,.difficulty-control,.formula-intro,.formula-example,.coach-head,.coach-message.coach-bot,.coach-quick button,.account-box,.feedback-settings,.connection-status){background:var(--soft-gradient)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.setup-card input,.setup-card select,.answer-input,.choice,.question-grid button,.timer,.formula-grid section,.coach-form input){background:var(--field-gradient);border-color:color-mix(in srgb,var(--accent) 25%,var(--line))}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.auth-gate){background:var(--page-bg)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.exam-actions){background:var(--glass-gradient)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .choice:has(input:checked){background:var(--soft-gradient);box-shadow:inset 0 0 0 1px var(--accent)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.primary,.brand span,.progress-track i,.question-grid button.current,.mini-bar i,.chart-bar){background:var(--accent-fill)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.progress-track,.mini-bar){background:linear-gradient(90deg,color-mix(in srgb,var(--surface2) 92%,var(--accent2)),color-mix(in srgb,var(--surface2) 88%,var(--accent)))}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .score-ring{background:conic-gradient(from 20deg,var(--accent),var(--accent2) var(--score),color-mix(in srgb,var(--surface) 75%,var(--accent2)) 0)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .score-ring:after{background:var(--card-gradient)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.hero h1 em,.page-heading h1){background:var(--accent-fill);background-clip:text;-webkit-background-clip:text;color:transparent}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) #toast{background:var(--accent-fill);color:#fff}
 
 /* Native select popups do not reliably support gradients. Give their rows an
    explicit theme-aware surface so every option stays readable when expanded. */
 select option,select optgroup{background-color:var(--surface);color:var(--ink)}
 [data-theme=cosmic] select option,[data-theme=cosmic] select optgroup{background-color:#241b38;color:#faf6ff}
 [data-theme=midnight] select option,[data-theme=midnight] select optgroup{background-color:#1d1d2c;color:#f5f2ff}
+[data-theme^=dark-] select option,[data-theme^=dark-] select optgroup{background-color:#10172b;color:#f7f8ff}
 select optgroup{font-weight:800}
 .topic-controls{display:grid;gap:13px;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
 .control-note{margin:0;color:var(--muted);font-size:11px;line-height:1.45}
-:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden]) .topic-controls{background:var(--soft-gradient);border-color:color-mix(in srgb,var(--accent) 24%,var(--line))}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .topic-controls{background:var(--soft-gradient);border-color:color-mix(in srgb,var(--accent) 24%,var(--line))}
 .formula-intro{margin-top:18px;padding:15px 17px;border-left:4px solid var(--accent);border-radius:10px;background:var(--surface2)}
 .formula-intro p{margin:4px 0 0;color:var(--muted);line-height:1.5;font-size:14px}
 .formula-grid section{border:1px solid var(--line)}
@@ -104,6 +113,11 @@ body.signed-in #authGate{display:none!important}
   .page-heading{display:grid;gap:18px}.page-heading .primary{width:100%}.panel{padding:17px}.center-actions{display:grid}.center-actions button{width:100%}
   dialog{max-height:88dvh;overflow:auto;padding:19px;margin:auto}.formula-grid{gap:8px}
 }
+
+/* Components defined later in the stylesheet still inherit the full-gradient
+   treatment instead of falling back to a flat fill. */
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .formula-grid .formula-example{background:var(--soft-gradient)}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .setup-card .feedback-toggle input:not(:checked){background:var(--field-gradient)}
 
 @media print{
   @page{margin:.55in}
