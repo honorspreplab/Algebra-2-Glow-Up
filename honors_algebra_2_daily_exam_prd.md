@@ -518,6 +518,9 @@ The app logo should feel like a polished real study app icon: friendly, soft, ge
 | Midnight Mode | Dark mode with high contrast |
 | Bubblegum Pop | Pink fun theme |
 | Classic Exam | White/gray clean school theme |
+| Cloud Blue | Soft powder blue study theme |
+| Iced Latte | Warm cream and mocha study theme |
+| Cherry Cola | Deep burgundy dark theme with rose accents |
 | Aurora Sky | Blue, violet, and mint gradient inspired by the northern lights |
 | Cosmic Grape | Deep indigo, violet, and magenta gradient with high contrast |
 | Tropical Splash | Turquoise, ocean blue, and lime gradient |
@@ -528,6 +531,8 @@ The app logo should feel like a polished real study app icon: friendly, soft, ge
 | Velvet Rose | Black cherry, plum, rose pink, and violet gradient |
 | Ember Eclipse | Charcoal, burgundy, ember orange, and warm gold gradient |
 | Electric Galaxy | Midnight navy, cobalt, indigo, and neon violet gradient |
+
+The theme catalog should remain balanced with the same number of non-gradient and gradient choices. All gradient choices, including darker gradients, belong under one `Gradient themes` group in the dropdown.
 
 ### Gradient Theme Requirements
 
@@ -548,7 +553,7 @@ Gradient themes should apply coordinated gradients to every major visual layer:
 
 No major interface surface should fall back to a flat solid color while a gradient theme is active. Gradients should vary by layer so that cards remain visually distinct from the page background. Text may also use a gradient treatment for large decorative headings, but questions, answers, labels, and body copy must maintain accessible contrast. The selected gradient theme must be saved locally and restored when the student returns.
 
-Dark gradient themes must preserve bright, readable text and visually separate the page, cards, fields, selected answers, and navigation layers. The browser and phone safe-area tint should also follow the selected theme.
+Darker gradient choices must preserve bright, readable text and visually separate the page, cards, fields, selected answers, and navigation layers. The browser and phone safe-area tint should also follow the selected theme.
 
 ### Theme Requirements
 
