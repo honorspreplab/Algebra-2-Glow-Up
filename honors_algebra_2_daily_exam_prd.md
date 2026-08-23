@@ -245,6 +245,8 @@ Logarithm practice must directly match the logarithm formula sheet instead of fo
 
 Logarithm grading must accept harmless formatting differences. For example, `2log_b5`, `2log_b(5)`, and `2 * log base b of 5` are equivalent and should all be accepted. Removing the logarithm entirely is not equivalent: an answer of `10` must not be accepted when the required answer is `log_b(10)`. Combine/condense prompts must clearly tell the student to write one logarithm and keep the log notation.
 
+General Algebra 2 grading must also accept harmless answer wording. A numeric answer such as `6` should accept `x = 6`, `answer: 6`, or `remainder: 6` when the numeric value is correct. Multi-solution answers must be treated as unordered sets, so `4,1`, `x = 4 or x = 1`, and `1 and 4` are equivalent. Different values must remain incorrect. Previously saved detailed exam reviews should be regraded with these equivalence rules so an old false-negative result is repaired when reopened.
+
 Starting a test must feel nearly instant and must not wait for an online model response. The app should immediately create a complete test with its built-in non-repeating generator and open the first question. Online-generated questions may quietly replace only later, unanswered questions after they arrive; the current question and every answered question must never change. The student-facing text should say **Creating your test…** and **Your test is ready.** without naming the AI provider or model. Provider and model details may remain visible only inside administrator health-check tools.
 
 Example question types:
@@ -722,6 +724,8 @@ The Study Coach is **math-only**, not a general-purpose chatbot. It may help wit
 This restriction must be enforced in both the browser and the Firebase Function. The backend must apply a fixed math-only instruction that student messages cannot override. When it cannot interpret a free-form math request, it should say what kinds of math follow-ups it can answer and offer useful quick prompts. It must never pretend to understand a question it cannot handle.
 
 The math-only restriction must still allow natural conversational follow-ups connected to the active tutoring session. Messages such as “that’s what I meant,” “oops,” “got it,” “that makes sense,” short corrections, and brief thank-yous are part of the math conversation and must not trigger the off-topic refusal. The coach should acknowledge them briefly and guide the student back into the current problem.
+
+Natural confusion phrases are also valid math follow-ups while a question is active. Casual or stretched messages such as “I don’t get ittttt,” “I’m lost,” “huhhh,” “wait what,” “that made no sense,” and “it’s not clicking” must receive a simpler explanation of the current math step instead of the math-only refusal. This does not weaken the restriction on genuinely unrelated questions.
 
 Each question should have a button:
 

@@ -1,4 +1,4 @@
-const CACHE = "honors-algebra-2-prep-v81";
+const CACHE = "honors-algebra-2-prep-v82";
 const APP_FILES = [
   "./",
   "./index.html",
