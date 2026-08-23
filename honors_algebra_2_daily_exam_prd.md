@@ -1126,6 +1126,8 @@ This helps the student see both speed and understanding.
 
 ### Home Screen
 
+The home screen should include a small, polished `Created by Radhika Chandra` credit beneath the introductory feature row. It should follow the selected theme and remain readable without competing with the main headline or session setup controls.
+
 Must include:
 
 - Student name input

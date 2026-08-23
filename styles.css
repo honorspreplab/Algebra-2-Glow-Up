@@ -57,6 +57,7 @@
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .score-ring:after{background:var(--card-gradient)}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) :is(.hero h1 em,.page-heading h1){background:var(--accent-fill);background-clip:text;-webkit-background-clip:text;color:transparent}
 :is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) #toast{background:var(--accent-fill);color:#fff}
+:is([data-theme=aurora],[data-theme=cosmic],[data-theme=tropical],[data-theme=peach],[data-theme=golden],[data-theme^=dark-]) .creator-credit{background:var(--soft-gradient)}
 
 /* Native select popups do not reliably support gradients. Give their rows an
    explicit theme-aware surface so every option stays readable when expanded. */
@@ -178,6 +179,7 @@ body.signed-in #authGate{display:none!important}
   padding:9px 13px;
   white-space:nowrap;
 }
+.creator-credit{display:inline-flex;align-items:center;gap:5px;margin:24px 0 0;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface2);color:var(--muted);font-size:12px;letter-spacing:.01em}.creator-credit strong{color:var(--ink);font-weight:800}
 @media(max-width:800px){
   .saved-result-row{grid-template-columns:1fr auto}
   .saved-result-row span{display:none}
