@@ -1126,7 +1126,7 @@ This helps the student see both speed and understanding.
 
 ### Home Screen
 
-The home screen should include a polished `Created by Radhika Chandra` credit beneath the introductory feature row. It should follow the selected theme and remain readable without competing with the main headline or session setup controls. Selecting the credit opens an in-app creator bio dialog describing Radhika as the student creator, the purpose behind the app, and her focus on making Algebra 2 practice clearer, kinder, and less stressful. The public bio must not reveal private details such as age, school, address, or location.
+The home screen should include a polished `Created by Radhika Chandra` credit beneath the introductory feature row. It should follow the selected theme and remain readable without competing with the main headline or session setup controls. Selecting the credit opens an in-app creator bio dialog explaining that Radhika is a rising freshman in the United States who created the app, the purpose behind it, and her focus on making Algebra 2 practice clearer, kinder, and less stressful. The public bio must not reveal private details such as her exact age, school, address, city, or state.
 
 Must include:
 
