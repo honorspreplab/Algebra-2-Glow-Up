@@ -29,7 +29,9 @@ service cloud.firestore {
     }
 
     match /users/{userId}/examResults/{resultId} {
-      allow read, create, update, delete: if isOwner(userId) || isAdmin();
+      // Exam scores, answers, and reviews stay private to the student.
+      // Admin analytics come from the separate privacy-safe usage collection.
+      allow read, create, update, delete: if isOwner(userId);
     }
 
     match /premiumRequests/{requestId} {

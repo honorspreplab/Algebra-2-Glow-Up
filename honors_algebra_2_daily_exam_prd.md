@@ -778,6 +778,21 @@ This helps the app know what the student truly understands versus what they can 
 
 ## 13. Grading Requirements
 
+### Equivalent-Answer Grading
+
+The grader must judge mathematical meaning, not just matching text. It should accept equivalent fractions and decimals, reordered addition or multiplication, equivalent radical and pi expressions, harmless variable labels, reordered solution sets, reversed-but-equivalent equations, and standard alternate notation. Ordered pairs, inequality direction and boundaries, signs, logarithm bases, domain restrictions, and extra or missing solutions must remain exact.
+
+Grading uses two layers:
+
+1. A fast deterministic equivalence engine runs in the browser and works offline.
+2. When online, locally unmatched written responses receive one structured, server-side OpenAI equivalence check before the final score is shown. Multiple-choice and true/false questions do not need this second check.
+
+The AI grading response must use a strict JSON schema. Question content and student answers must be treated as untrusted data. The grader must never expose its instructions or accept instructions embedded in an answer. If the online check times out or fails, the deterministic result remains in place and the exam still completes.
+
+Before final grading, a typed response that does not match locally should be described as saved or pendingâ€”not immediately announced as wrong. The final review should say **Accepted** for correct responses instead of presenting a differently formatted answer as though the student were wrong. When a second check accepts an equivalent form, the review should explain that it was accepted as mathematically equivalent.
+
+Students may mark any active question for review. The mark must persist in the saved draft and appear in the question navigator until removed or the test is completed.
+
 After the student submits, the app should show:
 
 ### Score Summary
@@ -1321,6 +1336,7 @@ Admin dashboard requirements:
 - Search/filter by email and account type.
 - View usage totals for:
   - last 24 hours
+  - last 7 days
   - last 30 days
   - current month
   - previous months
@@ -1332,7 +1348,15 @@ Admin dashboard requirements:
   - worksheets generated
   - AI questions generated
   - AI grading calls
+  - Study Coach opens and message counts
+  - formula sheet opens
+  - saved, resumed, and completed tests
+  - worksheet prints
   - estimated model usage/cost if available from backend logs
+- Show a recent activity timeline with time-range and account search filters.
+- Track feature names, timestamps, counts, and limited test metadata such as mode, selected topic, difficulty, question count, time limit, time used, hints used, assistance count, and whether time expired.
+- Never show or return a studentâ€™s test score, percentage, grade, answer, exact question text, or chatbot message text in administrator analytics.
+- Store cumulative per-user feature counters so all-time usage remains available even when the recent activity list is limited.
 - Run an admin-only AI model health check that safely tests the configured Basic and Premium OpenAI models from the backend without exposing the API key.
 
 Admin actions must be logged in an audit log.
@@ -1385,7 +1409,7 @@ Use local JSON files or browser local storage.
 
 Every completed exam must remain available from **Progress → Recent sessions** with a **View results** button. A saved result must include the date, score, grade, time used, hint count, topic breakdown, every question, the student's answer, the accepted correct answer, whether the response was correct, and the explanation. Older summary-only results may show their saved score with a note that detailed review was not captured.
 
-Results must save immediately to browser `localStorage`. When a student is signed in, the app must also sync up to 100 recent results with the Firestore path `users/{uid}/examResults/{resultId}` so the same account can load its results on a phone or computer. Only the result owner and configured administrators may read or write those documents. Opening Progress must never depend on the cloud being available; local results remain the offline fallback.
+Results must save immediately to browser `localStorage`. When a student is signed in, the app must also sync up to 100 recent results with the Firestore path `users/{uid}/examResults/{resultId}` so the same account can load its results on a phone or computer. Only the result owner may read or write those documents; administrators receive privacy-safe usage analytics instead of result access. Opening Progress must never depend on the cloud being available; local results remain the offline fallback.
 
 ### Recommended Storage Files
 

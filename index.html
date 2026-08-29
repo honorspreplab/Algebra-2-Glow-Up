@@ -9,17 +9,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Honors Algebra 2 Prep">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg?v=86" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=86">
+  <link rel="icon" href="icon.svg?v=87" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=87">
   <title>Honors Algebra 2 Prep</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=86">
+  <link rel="stylesheet" href="styles.css?v=87">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=86" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v86</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=87" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v87</small></button>
     <span id="connectionStatus" class="connection-status hidden" role="status" aria-live="polite"></span>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
@@ -48,7 +48,7 @@
         <button class="creator-credit" id="creatorCredit" type="button" aria-haspopup="dialog" aria-controls="creatorBioModal">Created by <strong>Radhika Chandra</strong><span aria-hidden="true">↗</span></button>
       </div>
       <form id="setupForm" class="setup-card">
-        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=86" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
+        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=87" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
         <label>What should we call you?<input id="studentName" required maxlength="30" placeholder="Your first name" autocomplete="name"></label>
         <div class="field-grid">
           <label>Voice
@@ -158,7 +158,7 @@
           <div id="answerArea"></div>
           <div id="adaptiveDifficultyControl" class="difficulty-control hidden"></div>
           <div id="lesson" class="lesson coach hidden" aria-live="polite"></div>
-        <div class="help-row"><button class="soft" id="teachButton">✦ Open Study Coach</button><span id="saveStatus">Answer saves automatically</span></div>
+        <div class="help-row"><div class="question-tools"><button class="soft" id="teachButton">✦ Open Study Coach</button><button class="soft mark-review" id="markReview" type="button">☆ Mark for review</button></div><span id="saveStatus">Answer saves automatically</span></div>
         </article>
         <div class="exam-actions"><button class="soft" id="prevButton">← Previous</button><button class="primary" id="nextButton">Next question →</button></div>
       </div>
@@ -190,6 +190,7 @@
 
     <section id="adminView" class="view hidden dashboard-page">
       <div class="page-heading"><div><p class="kicker">ADMIN</p><h1>Accounts & usage</h1></div><button class="primary" id="refreshAdmin">Refresh admin data</button></div>
+      <div class="admin-privacy"><strong>Privacy-safe activity only</strong><span>You can see feature usage and activity timing, but never anyone’s test scores, answers, questions, or chatbot messages.</span></div>
       <div id="adminStats" class="stat-grid"></div>
       <article class="panel">
         <div class="panel-title"><h2>AI model health check</h2><span>Admin only</span></div>
@@ -198,7 +199,15 @@
         <div id="modelTestResults" class="model-test-results"></div>
       </article>
       <article class="panel"><div class="panel-title"><h2>Premium requests</h2><span>Admin only</span></div><div id="premiumRequests"></div></article>
-      <article class="panel"><div class="panel-title"><h2>Signed-in users</h2><span>Usage summary</span></div><div id="adminUsers"></div></article>
+      <article class="panel">
+        <div class="panel-title"><h2>Signed-in users</h2><span>Activity counts—not scores</span></div>
+        <label class="admin-search">Find an account<input id="adminUserSearch" type="search" placeholder="Search name or email" autocomplete="off"></label>
+        <div id="adminUsers" class="admin-user-list"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-title"><h2>Recent activity</h2><label class="admin-range">Show<select id="adminTimeRange"><option value="86400000">Last 24 hours</option><option value="604800000">Last 7 days</option><option value="2592000000" selected>Last 30 days</option><option value="31536000000">Last year</option><option value="all">All available</option></select></label></div>
+        <div id="adminActivity" class="admin-activity-list"></div>
+      </article>
     </section>
 
     <section id="worksheetView" class="view hidden worksheet-page">
@@ -213,7 +222,7 @@
       <button class="icon-button" id="closeCreatorBio" type="button" aria-label="Close creator bio">×</button>
     </div>
     <div class="creator-profile">
-      <div class="creator-avatar" aria-hidden="true"><img src="icon.svg?v=86" alt=""></div>
+      <div class="creator-avatar" aria-hidden="true"><img src="icon.svg?v=87" alt=""></div>
       <div>
         <p>I’m a rising freshman living in the United States, and I made Honors Algebra 2 Prep to help studying feel clearer, kinder, and way less stressful.</p>
         <p>Every theme, practice mode, explanation, and progress tool was designed to help students build real confidence—one question at a time.</p>
@@ -266,7 +275,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
-  <script src="firebase-config.js?v=86"></script>
-  <script src="app.js?v=86"></script>
+  <script src="firebase-config.js?v=87"></script>
+  <script src="app.js?v=87"></script>
 </body>
 </html>
