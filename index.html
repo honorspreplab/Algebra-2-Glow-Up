@@ -9,17 +9,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Honors Algebra 2 Prep">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg?v=87" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=87">
+  <link rel="icon" href="icon.svg?v=88" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=88">
   <title>Honors Algebra 2 Prep</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=87">
+  <link rel="stylesheet" href="styles.css?v=88">
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=87" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v87</small></button>
+    <button class="brand" data-view="home" aria-label="Go home"><span class="logo-badge"><img src="icon.svg?v=88" alt=""></span> Honors Algebra 2 Prep <small id="appVersion">v88</small></button>
     <span id="connectionStatus" class="connection-status hidden" role="status" aria-live="polite"></span>
     <nav>
       <button class="nav-link active" data-view="home">Home</button>
@@ -45,10 +45,20 @@
         <h1>Honors Algebra 2,<br><em>without the panic.</em></h1>
         <p class="lede">A fresh, focused practice exam that learns what you need next. Clear explanations, kind feedback, real progress.</p>
         <div class="trust-row"><span>✓ Google sign-in</span><span>✓ Progress saved</span><span>✓ Built for rising 9th graders</span></div>
+        <article class="daily-mission-card" id="dailyMissionCard">
+          <div class="mission-icon" aria-hidden="true">✦</div>
+          <div class="mission-copy">
+            <p class="kicker">YOUR NEXT BEST MOVE</p>
+            <h2 id="dailyMissionTitle">Start with a quick diagnostic</h2>
+            <p id="dailyMissionText">A short mixed session will find the topics that deserve your attention next.</p>
+            <div id="dailyMissionMeta" class="mission-meta"><span>10 questions</span><span>Adaptive</span></div>
+          </div>
+          <button class="primary" id="startDailyMission" type="button">Start mission →</button>
+        </article>
         <button class="creator-credit" id="creatorCredit" type="button" aria-haspopup="dialog" aria-controls="creatorBioModal">Created by <strong>Radhika Chandra</strong><span aria-hidden="true">↗</span></button>
       </div>
       <form id="setupForm" class="setup-card">
-        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=87" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
+        <div class="card-heading"><span class="step-dot app-mark"><img src="icon.svg?v=88" alt=""></span><div><h2>Set up today’s session</h2><p>We’ll remember these choices.</p></div></div>
         <label>What should we call you?<input id="studentName" required maxlength="30" placeholder="Your first name" autocomplete="name"></label>
         <div class="field-grid">
           <label>Voice
@@ -156,6 +166,15 @@
           <p id="questionType" class="kicker">MULTIPLE CHOICE</p>
           <h1 id="questionPrompt"></h1>
           <div id="answerArea"></div>
+          <div class="confidence-check" id="confidenceCheck" aria-label="Answer confidence">
+            <span>How sure are you?</span>
+            <div>
+              <button class="confidence-option" type="button" data-confidence="guessing">Guessing</button>
+              <button class="confidence-option" type="button" data-confidence="unsure">Not sure</button>
+              <button class="confidence-option" type="button" data-confidence="confident">Confident</button>
+            </div>
+            <small>Optional—but it helps the app teach you what to review.</small>
+          </div>
           <div id="adaptiveDifficultyControl" class="difficulty-control hidden"></div>
           <div id="lesson" class="lesson coach hidden" aria-live="polite"></div>
         <div class="help-row"><div class="question-tools"><button class="soft" id="teachButton">✦ Open Study Coach</button><button class="soft mark-review" id="markReview" type="button">☆ Mark for review</button></div><span id="saveStatus">Answer saves automatically</span></div>
@@ -174,6 +193,11 @@
         <article class="panel"><div class="panel-title"><h2>Topic breakdown</h2><span>Today</span></div><div id="topicBreakdown"></div></article>
         <article class="panel"><div class="panel-title"><h2>What to study next</h2><span>Adaptive</span></div><div id="nextSteps"></div></article>
       </div>
+      <article class="panel learning-signal-panel">
+        <div class="panel-title"><h2>Your learning signal</h2><span>Beyond the score</span></div>
+        <div id="confidenceResult"></div>
+        <button class="primary hidden" id="practiceMissed" type="button">Practice what I missed →</button>
+      </article>
       <article class="panel"><div class="panel-title"><h2>Review your answers</h2><button class="text-button" id="toggleReview">Show review</button></div><div id="reviewList" class="hidden"></div></article>
       <div class="center-actions"><button class="primary" data-view="dashboard">See my progress →</button><button class="soft" data-view="home">Back home</button></div>
     </section>
@@ -181,6 +205,10 @@
     <section id="dashboardView" class="view hidden dashboard-page">
       <div class="page-heading"><div><p class="kicker">YOUR PROGRESS</p><h1 id="dashboardTitle">A little stronger every day.</h1></div><button class="primary" data-view="home">Start practice →</button></div>
       <div id="dashboardStats" class="stat-grid"></div>
+      <div class="learning-lab-grid">
+        <article class="panel"><div class="panel-title"><h2>Mistake Lab</h2><span>Spaced review</span></div><div id="mistakeLab"></div></article>
+        <article class="panel"><div class="panel-title"><h2>Confidence compass</h2><span>Know what you know</span></div><div id="confidenceInsights"></div></article>
+      </div>
       <div class="dashboard-grid">
         <article class="panel chart-panel"><div class="panel-title"><h2>Score trend</h2><span>Last 10 exams</span></div><div id="scoreChart" class="score-chart"></div></article>
         <article class="panel"><div class="panel-title"><h2>Topic mastery</h2><span>All time</span></div><div id="masteryList"></div></article>
@@ -222,7 +250,7 @@
       <button class="icon-button" id="closeCreatorBio" type="button" aria-label="Close creator bio">×</button>
     </div>
     <div class="creator-profile">
-      <div class="creator-avatar" aria-hidden="true"><img src="icon.svg?v=87" alt=""></div>
+      <div class="creator-avatar" aria-hidden="true"><img src="icon.svg?v=88" alt=""></div>
       <div>
         <p>I’m a rising freshman living in the United States, and I made Honors Algebra 2 Prep to help studying feel clearer, kinder, and way less stressful.</p>
         <p>Every theme, practice mode, explanation, and progress tool was designed to help students build real confidence—one question at a time.</p>
@@ -275,7 +303,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-functions-compat.js"></script>
-  <script src="firebase-config.js?v=87"></script>
-  <script src="app.js?v=87"></script>
+  <script src="firebase-config.js?v=88"></script>
+  <script src="app.js?v=88"></script>
 </body>
 </html>

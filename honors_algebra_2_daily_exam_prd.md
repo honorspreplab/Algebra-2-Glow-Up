@@ -793,6 +793,15 @@ Before final grading, a typed response that does not match locally should be des
 
 Students may mark any active question for review. The mark must persist in the saved draft and appear in the question navigator until removed or the test is completed.
 
+### Confidence Calibration
+
+Every active question should offer an optional **Guessing**, **Not sure**, or **Confident** check. Confidence never changes the grade. It is stored with that student's private answer review and used to produce two high-value signals:
+
+- A **confident mistake** is a priority misconception to review because the incorrect method felt correct.
+- A correct answer marked Guessing or Not sure is a **surprise win**, showing that skill may be ahead of confidence.
+
+The results page must summarize these signals without shaming the student. Each reviewed answer should show its confidence label when one was selected. Saved results and cloud sync must preserve confidence data, while administrator analytics must never receive it.
+
 After the student submits, the app should show:
 
 ### Score Summary
@@ -933,6 +942,18 @@ Example:
 
 > You improved by 9 percentage points compared with your first exam. Your biggest growth is in quadratic transformations. Your next target is rational equations because you are still missing extraneous solution checks.
 
+#### F. Personalized Learning Lab
+
+The Progress page should include:
+
+- A **Mistake Lab** that groups missed work by topic and schedules spaced review.
+- Fresh-practice buttons that generate new questions on the same concept rather than repeating the exact missed prompt.
+- A **Confidence Compass** showing confident-answer accuracy, confident mistakes, and correct answers completed while unsure.
+- Real focused minutes calculated from completed session time.
+- A real practice streak based on distinct consecutive calendar days. Multiple tests on one day count as one streak day; exam count must never be presented as a day streak.
+
+The Home screen should show one **Your Next Best Move** mission. The mission priority order is: resume an unfinished test, complete a due spaced review, strengthen the weakest all-time topic, or take a first diagnostic. A focused mission should be short by default (about five fresh questions and ten minutes), while the first diagnostic may use the normal ten-question adaptive mix.
+
 ---
 
 ## 16. Adaptive Question Generation
@@ -972,9 +993,13 @@ The next exam should include:
 
 If a student misses a topic, it should come back:
 
-- Next day: easier/medium retry
-- 3 days later: mixed context
-- 7 days later: challenge version
+- Immediately: an optional fresh-question retry in the Mistake Lab or results screen
+- After the first successful review: 1 day later
+- After the next successful review: 3 days later
+- Continued success: 7, 14, then 30 days later
+- A new miss resets that topic to due now and may lower the retry difficulty
+
+Review scheduling is derived from the student's private saved results so it can follow the same signed-in student across supported devices. Only topic-level scheduling is shown in the learning interface; the app must not send scores, answer text, confidence selections, or missed prompts to administrator analytics.
 
 ### Example
 
